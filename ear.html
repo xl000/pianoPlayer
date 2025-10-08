@@ -801,8 +801,18 @@
                 width: 45%;
             }
             
-            .piano-container {
+            /* .piano-container {
                 height: 150px;
+            } */
+            .piano-container {
+                position: relative; /* 添加相对定位 */
+                height: 160px;
+                margin: 20px 0;
+                overflow-x: auto;
+                padding-bottom: 15px;
+                border-radius: 15px;
+                box-shadow: inset 0 0 15px rgba(128, 222, 234, 0.3);
+                -webkit-overflow-scrolling: touch;
             }
             
             .white {
@@ -842,6 +852,67 @@
         /* 粉色主题错误提示 */
         body.pink-theme .error-message {
             color: #e53935;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .scroll-arrow:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .left-arrow {
+            left: 10px;
+        }
+
+        .right-arrow {
+            right: 10px;
+        }
+
+        /* 主题样式 */
+        body.default-theme .scroll-arrow {
+            background: rgba(255, 255, 255, 0.7);
+            color: #00838f;
+        }
+
+        body.pink-theme .scroll-arrow {
+            background: rgba(255, 255, 255, 0.7);
+            color: #f06292;
+        }
+
+        body.dark-theme .scroll-arrow {
+            background: rgba(45, 45, 66, 0.7);
+            color: #e0e0e0;
+        }
+
+        /* 只在移动设备和平板上显示箭头 */
+        @media (max-width: 768px) {
+            .scroll-arrow {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .scroll-arrow {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -930,6 +1001,7 @@
             <div class="piano" id="piano">
                 <!-- 钢琴键通过JS动态生成 -->
             </div>
+            <div class="scroll-arrow right-arrow">›</div>
         </div>
         
         <div class="button-group">
@@ -1081,6 +1153,12 @@
             
             // 初始化旋钮指示器位置
             updateKnobIndicators();
+
+            // 新增：页面加载后自动重置选择
+            resetSelection(true); // 使用静默模式重置，不显示提示消息
+
+            // 添加箭头滚动功能
+            setupScrollArrows();
         }
         
         // 创建钢琴键盘
@@ -1767,6 +1845,46 @@
                 statusMessage.textContent = "唱名序列播放完成！";
                 setTimeout(() => statusMessage.textContent = "", 2000);
             }
+        }
+
+        function setupScrollArrows() {
+            const pianoContainer = document.querySelector('.piano-container');
+            const piano = document.getElementById('piano');
+            const leftArrow = document.querySelector('.left-arrow');
+            const rightArrow = document.querySelector('.right-arrow');
+            
+            // 设置滚动步长（每次滚动一个八度）
+            const scrollStep = 200; // 根据您的钢琴键宽度调整
+            
+            leftArrow.addEventListener('click', () => {
+                pianoContainer.scrollBy({
+                    left: -scrollStep,
+                    behavior: 'smooth'
+                });
+            });
+            
+            rightArrow.addEventListener('click', () => {
+                pianoContainer.scrollBy({
+                    left: scrollStep,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 在移动设备上添加触摸滑动支持
+            let startX = 0;
+            let scrollLeft = 0;
+            
+            pianoContainer.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].pageX;
+                scrollLeft = pianoContainer.scrollLeft;
+            });
+            
+            pianoContainer.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const x = e.touches[0].pageX;
+                const walk = (x - startX) * 2; // 增加滑动灵敏度
+                pianoContainer.scrollLeft = scrollLeft - walk;
+            });
         }
         
         // 初始化应用
