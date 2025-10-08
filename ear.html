@@ -998,6 +998,7 @@
         </div>
         
         <div class="piano-container">
+            <div class="scroll-arrow left-arrow">‹</div>
             <div class="piano" id="piano">
                 <!-- 钢琴键通过JS动态生成 -->
             </div>
@@ -1849,7 +1850,6 @@
 
         function setupScrollArrows() {
             const pianoContainer = document.querySelector('.piano-container');
-            const piano = document.getElementById('piano');
             const leftArrow = document.querySelector('.left-arrow');
             const rightArrow = document.querySelector('.right-arrow');
             
