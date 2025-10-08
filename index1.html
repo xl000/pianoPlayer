@@ -11,62 +11,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        body {
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: background 0.5s ease;
-        }
-
-        /* 默认主题（蓝色） */
-        body.default-theme {
-            background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
-            color: #333;
-        }
-
-        /* 粉色主题 */
-        body.pink-theme {
-            background: linear-gradient(135deg, #f8bbd0, #f48fb1, #f06292);
-            color: #5d4037;
-        }
-
-        /* 暗色主题 */
-        body.dark-theme {
-            background: linear-gradient(135deg, #2c3e50, #1a237e, #0d47a1);
-            color: #e0e0e0;
-        }
-
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(128, 222, 234, 0.3);
-            backdrop-filter: blur(10px);
-            margin-top: 20px;
-        }
-
-        body.dark-theme .container {
-            background: rgba(30, 30, 46, 0.85);
-            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
-        }
-
-        body.pink-theme .container {
-            box-shadow: 0 10px 30px rgba(240, 98, 146, 0.3);
         }
 
         /* 主题切换按钮样式 */
         .theme-switcher {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 15px;
+            left: 15px;
             z-index: 1000;
         }
 
@@ -80,6 +31,11 @@
             transition: all 0.3s;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             min-width: 100px;
+        }
+
+        #themeToggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* 默认主题按钮样式 */
@@ -97,46 +53,193 @@
             background: linear-gradient(to right, #3949ab, #1e88e5);
         }
 
-        #themeToggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        /* 默认主题（蓝色） */
+        body.default-theme {
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
+            color: #333;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body.default-theme .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(128, 222, 234, 0.3);
+            backdrop-filter: blur(10px);
+            margin-top: 15px;
+        }
+
+        body.default-theme .control-group,
+        body.default-theme .piano-container,
+        body.default-theme .solfege-playback-container,
+        body.default-theme .note-display {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        body.default-theme button {
+            background: linear-gradient(to right, #80cbc4, #4db6ac);
+        }
+
+        body.default-theme .random-btn {
+            background: linear-gradient(to right, #81d4fa, #4fc3f7);
+        }
+
+        body.default-theme .toggle-labels-btn {
+            background: linear-gradient(to right, #a5d6a7, #81c784);
+        }
+
+        body.default-theme .playback-btn {
+            background: linear-gradient(to right, #90caf9, #64b5f6);
+        }
+
+        /* 粉色主题 */
+        body.pink-theme {
+            background: linear-gradient(135deg, #f8bbd0, #f48fb1, #f06292);
+            color: #5d4037;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body.pink-theme .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(240, 98, 146, 0.3);
+            backdrop-filter: blur(10px);
+            margin-top: 15px;
+        }
+
+        body.pink-theme .control-group,
+        body.pink-theme .piano-container,
+        body.pink-theme .solfege-playback-container,
+        body.pink-theme .note-display {
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        body.pink-theme button {
+            background: linear-gradient(to right, #f8bbd0, #f48fb1);
+        }
+
+        body.pink-theme .random-btn {
+            background: linear-gradient(to right, #f8bbd0, #f48fb1);
+        }
+
+        body.pink-theme .toggle-labels-btn {
+            background: linear-gradient(to right, #f48fb1, #f06292);
+        }
+
+        body.pink-theme .playback-btn {
+            background: linear-gradient(to right, #f48fb1, #ec407a);
+        }
+
+        /* 暗色主题 */
+        body.dark-theme {
+            background: linear-gradient(135deg, #2c3e50, #1a237e, #0d47a1);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body.dark-theme .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.85);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
+            backdrop-filter: blur(10px);
+            margin-top: 15px;
+        }
+
+        body.dark-theme .control-group,
+        body.dark-theme .piano-container,
+        body.dark-theme .solfege-playback-container,
+        body.dark-theme .note-display {
+            background: rgba(45, 45, 66, 0.7);
+        }
+
+        body.dark-theme button {
+            background: linear-gradient(to right, #3949ab, #1e88e5);
+        }
+
+        body.dark-theme .random-btn {
+            background: linear-gradient(to right, #5e35b1, #3949ab);
+        }
+
+        body.dark-theme .toggle-labels-btn {
+            background: linear-gradient(to right, #00897b, #00695c);
+        }
+
+        body.dark-theme .playback-btn {
+            background: linear-gradient(to right, #1e88e5, #1565c0);
+        }
+
+        body.dark-theme .key-label {
+            color: #e0e0e0;
+        }
+
+        body.dark-theme .black .key-label {
+            color: #fff;
+        }
+
+        body.dark-theme .solfege-input,
+        body.dark-theme input[type="number"],
+        body.dark-theme select {
+            background: rgba(55, 55, 75, 0.9);
+            color: #e0e0e0;
+            border-color: #3949ab;
+        }
+
+        body.dark-theme .solfege-sequence-input {
+            background: rgba(55, 55, 75, 0.9);
+            color: #e0e0e0;
+            border-color: #3949ab;
+        }
+
+        body.dark-theme .solfege-options {
+            background: rgba(45, 45, 66, 0.95);
+            color: #e0e0e0;
+            border-color: #3949ab;
+        }
+
+        body.dark-theme .solfege-option:hover {
+            background: rgba(66, 66, 86, 0.8);
         }
 
         /* 通用样式 */
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             position: relative;
+            padding-top: 40px;
         }
 
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
             color: #00838f;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        body.pink-theme h1 {
-            color: #d81b60;
-        }
-
-        body.dark-theme h1 {
-            color: #64b5f6;
-        }
-
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #4db6ac;
             max-width: 600px;
             margin: 0 auto;
-        }
-
-        body.pink-theme .subtitle {
-            color: #f06292;
-        }
-
-        body.dark-theme .subtitle {
-            color: #90caf9;
         }
         
         .status-message {
@@ -145,83 +248,46 @@
             color: #00838f;
             font-weight: bold;
             min-height: 24px;
-            padding: 10px;
+            padding: 8px;
             background: rgba(178, 235, 242, 0.3);
             border-radius: 10px;
-        }
-
-        body.pink-theme .status-message {
-            background: rgba(248, 187, 208, 0.3);
-            color: #d81b60;
-        }
-
-        body.dark-theme .status-message {
-            background: rgba(57, 73, 171, 0.3);
-            color: #90caf9;
+            font-size: 0.9rem;
         }
 
         .controls-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
             justify-content: center;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            padding: 15px;
+            padding: 12px;
             border-radius: 15px;
-            min-width: 200px;
+            min-width: 150px;
+            width: 100%;
             box-shadow: 0 4px 10px rgba(0, 131, 143, 0.1);
-            background: rgba(255, 255, 255, 0.7);
-        }
-
-        body.pink-theme .control-group {
-            background: rgba(255, 255, 255, 0.75);
-        }
-
-        body.dark-theme .control-group {
-            background: rgba(45, 45, 66, 0.7);
         }
 
         .control-label {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #00838f;
             font-weight: bold;
         }
 
-        body.pink-theme .control-label {
-            color: #d81b60;
-        }
-
-        body.dark-theme .control-label {
-            color: #90caf9;
-        }
-
         input[type="number"], select {
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             border: 2px solid #b2dfdb;
             background: rgba(255, 255, 255, 0.9);
             color: #004d40;
-            font-size: 1rem;
+            font-size: 0.95rem;
             width: 100%;
             transition: all 0.3s;
-        }
-
-        body.pink-theme input[type="number"],
-        body.pink-theme select {
-            border-color: #f8bbd0;
-        }
-
-        body.dark-theme input[type="number"],
-        body.dark-theme select {
-            background: rgba(55, 55, 75, 0.9);
-            color: #e0e0e0;
-            border-color: #3949ab;
         }
 
         input[type="number"]:focus, select:focus {
@@ -234,28 +300,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 15px 0;
+            margin: 12px 0;
+            width: 100%;
         }
         
         .knob-label {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #00838f;
             font-weight: bold;
             margin-bottom: 8px;
         }
-
-        body.pink-theme .knob-label {
-            color: #d81b60;
-        }
-
-        body.dark-theme .knob-label {
-            color: #90caf9;
-        }
         
         .knob {
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: linear-gradient(145deg, #e0f7fa, #b2ebf2);
             box-shadow: 0 8px 20px rgba(128, 222, 234, 0.3),
@@ -273,8 +332,8 @@
         
         .knob-inner {
             position: relative;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: linear-gradient(145deg, #f0fdff, #d5f5fa);
             box-shadow: inset 0 2px 8px rgba(128, 222, 234, 0.3);
@@ -284,51 +343,35 @@
         }
         
         .knob-value {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #00838f;
             text-shadow: 0 0 5px rgba(178, 235, 242, 0.8);
-        }
-
-        body.pink-theme .knob-value {
-            color: #d81b60;
-        }
-
-        body.dark-theme .knob-value {
-            color: #90caf9;
         }
         
         .knob-indicator {
             position: absolute;
             width: 4px;
-            height: 30px;
+            height: 25px;
             background: #4db6ac;
-            top: -10px;
+            top: -5px;
             left: 50%;
             transform-origin: bottom center;
             transform: translateX(-50%) rotate(0deg);
             border-radius: 2px;
             box-shadow: 0 0 8px rgba(77, 182, 172, 0.8);
         }
-
-        body.pink-theme .knob-indicator {
-            background: #f48fb1;
-        }
-
-        body.dark-theme .knob-indicator {
-            background: #3949ab;
-        }
         
         .knob-controls {
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         
         .knob-btn {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: linear-gradient(to bottom, #80cbc4, #4db6ac);
             display: flex;
@@ -340,14 +383,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: all 0.2s;
         }
-
-        body.pink-theme .knob-btn {
-            background: linear-gradient(to bottom, #f8bbd0, #f48fb1);
-        }
-
-        body.dark-theme .knob-btn {
-            background: linear-gradient(to bottom, #3949ab, #1e88e5);
-        }
         
         .knob-btn:hover {
             transform: scale(1.1);
@@ -356,44 +391,35 @@
 
         .piano-container {
             position: relative;
-            height: 200px;
-            margin: 30px 0;
+            height: 160px;
+            margin: 20px 0;
             overflow-x: auto;
-            padding-bottom: 20px;
+            padding-bottom: 15px;
             border-radius: 15px;
-            box-shadow: inset 0 0 20px rgba(128, 222, 234, 0.3);
+            box-shadow: inset 0 0 15px rgba(128, 222, 234, 0.3);
             -webkit-overflow-scrolling: touch;
-            touch-action: pan-x;
-        }
-
-        body.pink-theme .piano-container {
-            box-shadow: inset 0 0 20px rgba(240, 98, 146, 0.3);
-        }
-
-        body.dark-theme .piano-container {
-            box-shadow: inset 0 0 20px rgba(33, 150, 243, 0.3);
         }
 
         .piano {
             position: relative;
             display: inline-flex;
-            height: 180px;
+            height: 150px;
             min-width: max-content;
-            margin: 10px auto;
+            margin: 8px auto;
         }
 
         .key {
             position: relative;
             cursor: pointer;
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 6px 6px;
             transition: all 0.2s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            user-select: none;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            touch-action: manipulation;
         }
 
         .white {
-            width: 40px;
-            height: 180px;
+            width: 32px;
+            height: 150px;
             background: linear-gradient(to bottom, #fff 0%, #f5f5f5 100%);
             border: 1px solid #e0e0e0;
             z-index: 1;
@@ -404,10 +430,10 @@
         }
 
         .black {
-            width: 26px;
-            height: 110px;
+            width: 20px;
+            height: 90px;
             background: linear-gradient(to bottom, #455a64 0%, #37474f 100%);
-            margin: 0 -13px;
+            margin: 0 -10px;
             z-index: 2;
         }
 
@@ -416,7 +442,7 @@
         }
 
         .selected {
-            box-shadow: 0 0 15px rgba(255, 183, 77, 0.6);
+            box-shadow: 0 0 12px rgba(255, 183, 77, 0.6);
         }
         
         .playing {
@@ -433,17 +459,17 @@
 
         .key-label {
             position: absolute;
-            bottom: 10px;
+            bottom: 8px;
             width: 100%;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
             color: #455a64;
         }
 
         .black .key-label {
             color: #fff;
-            bottom: 8px;
+            bottom: 6px;
         }
 
         .selected .key-label {
@@ -457,11 +483,11 @@
         
         .position-indicator {
             position: absolute;
-            top: 10px;
+            top: 8px;
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             color: #e65100;
             text-shadow: 0 0 3px #fff;
@@ -469,29 +495,31 @@
 
         .button-group {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         button {
             color: white;
             border: none;
-            padding: 14px 30px;
-            font-size: 1.1rem;
+            padding: 12px 20px;
+            font-size: 1rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(77, 182, 172, 0.4);
+            box-shadow: 0 4px 12px rgba(77, 182, 172, 0.4);
             font-weight: bold;
             letter-spacing: 1px;
-            min-width: 180px;
+            min-width: 150px;
+            flex: 1;
+            max-width: 48%;
         }
 
         button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(77, 182, 172, 0.6);
+            box-shadow: 0 7px 18px rgba(77, 182, 172, 0.6);
         }
 
         button:active {
@@ -517,89 +545,40 @@
             background: linear-gradient(to right, #90caf9, #64b5f6);
         }
 
-        body.pink-theme .random-btn {
-            background: linear-gradient(to right, #f8bbd0, #f48fb1);
-        }
-
-        body.pink-theme .toggle-labels-btn {
-            background: linear-gradient(to right, #f48fb1, #f06292);
-        }
-
-        body.pink-theme .playback-btn {
-            background: linear-gradient(to right, #f48fb1, #ec407a);
-        }
-
-        body.dark-theme .random-btn {
-            background: linear-gradient(to right, #5e35b1, #3949ab);
-        }
-
-        body.dark-theme .toggle-labels-btn {
-            background: linear-gradient(to right, #00897b, #00695c);
-        }
-
-        body.dark-theme .playback-btn {
-            background: linear-gradient(to right, #1e88e5, #1565c0);
-        }
-
         .selected-notes-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin: 30px 0;
+            gap: 12px;
+            margin: 20px 0;
         }
 
         .selected-notes {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .note-display {
             border-radius: 12px;
-            padding: 15px 20px;
-            min-width: 100px;
+            padding: 12px 15px;
+            min-width: 90px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(128, 222, 234, 0.2);
+            box-shadow: 0 4px 8px rgba(128, 222, 234, 0.2);
             flex: 1;
-            max-width: 120px;
-            background: rgba(255, 255, 255, 0.7);
-        }
-
-        body.pink-theme .note-display {
-            background: rgba(255, 255, 255, 0.75);
-        }
-
-        body.dark-theme .note-display {
-            background: rgba(45, 45, 66, 0.7);
+            max-width: 100px;
         }
 
         .note-number {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #00838f;
             margin-bottom: 5px;
         }
-
-        body.pink-theme .note-number {
-            color: #d81b60;
-        }
-
-        body.dark-theme .note-number {
-            color: #90caf9;
-        }
         
         .note-value {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #006064;
-        }
-
-        body.pink-theme .note-value {
-            color: #ad1457;
-        }
-
-        body.dark-theme .note-value {
-            color: #bb86fc;
         }
         
         .solfege-input-container {
@@ -615,7 +594,7 @@
             border: 2px solid #b2dfdb;
             background: rgba(255, 255, 255, 0.9);
             color: #004d40;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-align: center;
             cursor: pointer;
         }
@@ -636,7 +615,7 @@
             box-shadow: 0 4px 8px rgba(0, 131, 143, 0.2);
             z-index: 10;
             display: none;
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
             border: 1px solid #b2dfdb;
         }
@@ -651,6 +630,7 @@
             text-align: center;
             color: #004d40;
             transition: background 0.2s;
+            font-size: 0.9rem;
         }
         
         .solfege-option:hover {
@@ -662,72 +642,37 @@
             font-style: italic;
         }
 
-        body.pink-theme .solfege-input,
-        body.pink-theme .solfege-options,
-        body.pink-theme .solfege-option {
-            border-color: #f8bbd0;
-        }
-
-        body.dark-theme .solfege-input,
-        body.dark-theme .solfege-options,
-        body.dark-theme .solfege-option {
-            background: rgba(55, 55, 75, 0.9);
-            color: #e0e0e0;
-            border-color: #3949ab;
-        }
-
-        body.dark-theme .solfege-option:hover {
-            background: rgba(66, 66, 86, 0.8);
-        }
-
         .solfege-playback-container {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
-            margin: 20px auto;
+            margin: 15px auto;
             max-width: 600px;
-            box-shadow: 0 4px 10px rgba(0, 131, 143, 0.1);
-            background: rgba(255, 255, 255, 0.7);
-        }
-
-        body.pink-theme .solfege-playback-container {
-            background: rgba(255, 255, 255, 0.75);
-        }
-
-        body.dark-theme .solfege-playback-container {
-            background: rgba(45, 45, 66, 0.7);
+            box-shadow: 0 4px 8px rgba(0, 131, 143, 0.1);
         }
         
         .solfege-playback-label {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #00838f;
             font-weight: bold;
             text-align: center;
         }
-
-        body.pink-theme .solfege-playback-label {
-            color: #d81b60;
-        }
-
-        body.dark-theme .solfege-playback-label {
-            color: #90caf9;
-        }
         
         .solfege-input-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         
         .solfege-sequence-input {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             border: 2px solid #b2dfdb;
             background: rgba(255, 255, 255, 0.9);
             color: #004d40;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
         
         .solfege-sequence-input:focus {
@@ -735,133 +680,168 @@
             outline: none;
             box-shadow: 0 0 8px rgba(77, 182, 172, 0.4);
         }
-
-        body.pink-theme .solfege-sequence-input {
-            border-color: #f8bbd0;
+        
+        .playback-btn {
+            min-width: 80px;
+            padding: 10px;
         }
-
-        body.dark-theme .solfege-sequence-input {
-            background: rgba(55, 55, 75, 0.9);
-            color: #e0e0e0;
-            border-color: #3949ab;
+        
+        .playback-btn:hover {
+            box-shadow: 0 7px 18px rgba(100, 181, 246, 0.4);
         }
 
         footer {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #00838f;
         }
 
-        body.pink-theme footer {
-            color: #d81b60;
-        }
-
-        body.dark-theme footer {
-            color: #90caf9;
-        }
-
-        /* 移动设备优化 */
-        @media (max-width: 768px) {
+        /* 手机竖屏优化 */
+        @media (max-width: 480px) {
             .container {
                 padding: 15px;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
-            button {
-                padding: 12px 20px;
-                min-width: 140px;
-                font-size: 1rem;
+            .subtitle {
+                font-size: 0.9rem;
             }
             
-            .control-group {
-                min-width: 150px;
-            }
-            
-            .piano-container {
-                height: 160px;
-            }
-            
-            .white {
-                width: 30px;
-                height: 150px;
-            }
-            
-            .black {
-                width: 20px;
-                height: 90px;
-                margin: 0 -10px;
-            }
-            
-            .note-display {
-                max-width: 100px;
-                padding: 10px 15px;
-            }
-            
-            .key-label {
-                font-size: 0.6rem;
-            }
-            
-            .knob {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .knob-inner {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .solfege-playback-container {
-                padding: 15px;
-            }
-            
-            .solfege-input-group {
-                flex-direction: column;
-            }
-            
-            .button-group {
-                gap: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
             .controls-container {
                 flex-direction: column;
                 align-items: center;
             }
             
             .control-group {
-                width: 100%;
-                max-width: 300px;
+                min-width: 100%;
             }
             
             .knob-container {
                 width: 100%;
-                max-width: 300px;
             }
             
-            .selected-notes {
-                flex-direction: column;
-                align-items: center;
+            .knob {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .knob-inner {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .knob-value {
+                font-size: 1rem;
+            }
+            
+            .piano-container {
+                height: 140px;
+            }
+            
+            .white {
+                width: 28px;
+                height: 130px;
+            }
+            
+            .black {
+                width: 18px;
+                height: 80px;
+                margin: 0 -9px;
             }
             
             .note-display {
-                width: 100%;
-                max-width: 250px;
+                max-width: 85px;
+                padding: 10px;
+                min-width: 80px;
             }
             
-            .theme-switcher {
-                position: static;
-                margin-bottom: 15px;
+            .key-label {
+                font-size: 0.6rem;
             }
             
-            #themeToggle {
-                width: 100%;
+            button {
+                min-width: 120px;
+                padding: 10px 15px;
+                font-size: 0.95rem;
             }
+            
+            .solfege-playback-container {
+                padding: 12px;
+            }
+            
+            .solfege-sequence-input {
+                font-size: 0.9rem;
+            }
+            
+            .playback-btn {
+                min-width: 70px;
+                padding: 8px;
+            }
+        }
+
+        /* 平板优化 */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 18px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .control-group {
+                min-width: 45%;
+            }
+            
+            .knob-container {
+                width: 45%;
+            }
+            
+            .piano-container {
+                height: 150px;
+            }
+            
+            .white {
+                width: 30px;
+                height: 140px;
+            }
+            
+            .black {
+                width: 20px;
+                height: 85px;
+                margin: 0 -10px;
+            }
+            
+            button {
+                min-width: 140px;
+            }
+        }
+
+        /* 错误提示样式 */
+        .error-message {
+            color: #ff4444;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            height: 18px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        /* 暗色主题错误提示 */
+        body.dark-theme .error-message {
+            color: #ff6666;
+        }
+        
+        /* 粉色主题错误提示 */
+        body.pink-theme .error-message {
+            color: #e53935;
         }
     </style>
 </head>
@@ -878,9 +858,11 @@
         <div class="status-message" id="statusMessage">正在加载音源...</div>
         
         <div class="controls-container">
+            <!-- 修改后的音符数量输入框 -->
             <div class="control-group">
                 <label class="control-label" for="noteCount">音符数量 (1-25)</label>
                 <input type="number" id="noteCount" min="1" max="25" value="3">
+                <div class="error-message" id="noteCountError"></div>
             </div>
             
             <div class="control-group">
@@ -891,9 +873,11 @@
                 </select>
             </div>
 
+            <!-- 修改后的随机唱名数量输入框 -->
             <div class="control-group">
                 <label class="control-label" for="randomSolfegeCount">随机唱名数量</label>
                 <input type="number" id="randomSolfegeCount" min="1" max="25" value="3">
+                <div class="error-message" id="randomSolfegeCountError"></div>
             </div>
         </div>
 
@@ -1072,6 +1056,10 @@
         // 新增：获取随机唱名数量输入框
         const randomSolfegeCountInput = document.getElementById('randomSolfegeCount');
         
+        // 错误提示元素
+        const noteCountError = document.getElementById('noteCountError');
+        const randomSolfegeCountError = document.getElementById('randomSolfegeCountError');
+        
         // 当前选中的音符
         let selectedNotes = ["A4", "B4", "F#4"];
         // 存储每个音符的唱名标签
@@ -1116,12 +1104,7 @@
                     key.appendChild(label);
                     
                     // 点击琴键时播放声音并选择音符
-                    const handleKeyInteraction = async (e) => {
-                        // 阻止触摸事件的默认行为（防止页面滚动）
-                        if (e.type === 'touchstart') {
-                            e.preventDefault();
-                        }
-                        
+                    key.addEventListener('click', async () => {
                         // 播放当前点击的音符
                         try {
                             // 确保音频上下文已启动
@@ -1157,11 +1140,47 @@
                                 }, 2000);
                             }
                         }
-                    };
+                    });
                     
-                    // 同时支持鼠标点击和触摸事件
-                    key.addEventListener('click', handleKeyInteraction);
-                    key.addEventListener('touchstart', handleKeyInteraction);
+                    // 添加触摸事件支持
+                    key.addEventListener('touchstart', async (e) => {
+                        e.preventDefault();
+                        // 播放当前点击的音符
+                        try {
+                            // 确保音频上下文已启动
+                            if (Tone.context.state !== 'running') {
+                                // 尝试启动音频上下文
+                                await Tone.start();
+                                statusMessage.textContent = "音频上下文已启动！";
+                            }
+                            
+                            // 添加播放效果
+                            key.classList.add('playing');
+                            setTimeout(() => key.classList.remove('playing'), 300);
+                            
+                            // 播放音符
+                            sampler.triggerAttackRelease(fullNote, noteDuration);
+                        } catch (error) {
+                            console.error("播放错误:", error);
+                            statusMessage.textContent = "播放错误：" + error.message;
+                        }
+                        
+                        // 更新选择
+                        if (!selectedNotes.includes(fullNote)) {
+                            if (selectedNotes.length < noteCount) {
+                                selectedNotes.push(fullNote);
+                                updateSelectedNotesDisplay();
+                                highlightSelectedKeys();
+                            } else {
+                                statusMessage.textContent = `已达到最大选择数量 (${noteCount})`;
+                                setTimeout(() => {
+                                    if (selectedNotes.length === noteCount) {
+                                        statusMessage.textContent = "";
+                                    }
+                                }, 2000);
+                            }
+                        }
+                    });
                     
                     piano.appendChild(key);
                 }
@@ -1177,77 +1196,67 @@
             randomBtn.addEventListener('click', playRandomSequence);
             resetBtn.addEventListener('click', resetSelection);
             
-            // 点播按钮事件监听
+            // 新增：点播按钮事件监听
             document.getElementById('playbackBtn').addEventListener('click', playSolfegeSequence);
             
             // 音符数量变化监听
             noteCountInput.addEventListener('change', () => {
                 const newCount = parseInt(noteCountInput.value);
-                if (newCount >= 1 && newCount <= 25) {
-                    updateNoteCount(newCount);
-                } else {
-                    noteCountInput.value = noteCount;
-                    statusMessage.textContent = "请输入1-25之间的数字";
-                    setTimeout(() => statusMessage.textContent = "", 2000);
-                }
+                validateNoteCount(newCount);
             });
             
-            // 防止输入非法值
+            // 输入时验证
             noteCountInput.addEventListener('input', () => {
-                let value = parseInt(noteCountInput.value);
-                if (isNaN(value) || value < 1) noteCountInput.value = 1;
-                if (value > 25) noteCountInput.value = 25;
+                const value = parseInt(noteCountInput.value);
+                validateNoteCount(value, true);
             });
             
-            // 随机唱名数量输入验证
+            // 新增：随机唱名数量输入验证
+            randomSolfegeCountInput.addEventListener('change', () => {
+                const newCount = parseInt(randomSolfegeCountInput.value);
+                validateRandomSolfegeCount(newCount);
+            });
+            
             randomSolfegeCountInput.addEventListener('input', () => {
-                let value = parseInt(randomSolfegeCountInput.value);
-                if (isNaN(value) || value < 1) randomSolfegeCountInput.value = 1;
-                if (value > 25) randomSolfegeCountInput.value = 25;
+                const value = parseInt(randomSolfegeCountInput.value);
+                validateRandomSolfegeCount(value, true);
             });
             
-            // 播放时长旋钮事件监听
-            const handleKnobInteraction = (e, knobId, setterFn, min, max) => {
-                const knob = document.getElementById(knobId);
+            // 新增：播放时长旋钮事件监听
+            document.getElementById('durationKnob').addEventListener('click', (e) => {
+                const knob = e.currentTarget;
                 const rect = knob.getBoundingClientRect();
                 const centerX = rect.left + rect.width / 2;
                 const centerY = rect.top + rect.height / 2;
                 
-                // 获取事件坐标（支持触摸事件）
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-                
-                if (!clientX || !clientY) return;
-                
                 // 计算角度 (0-360度)
-                const angle = Math.atan2(clientY - centerY, clientX - centerX) * (180 / Math.PI);
+                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI);
                 // 将角度转换为0-360范围
                 const normalizedAngle = (angle + 360) % 360;
                 
-                // 将角度映射到指定范围
-                const newValue = min + (normalizedAngle / 360) * (max - min);
-                setterFn(newValue);
-            };
-            
-            // 播放时长旋钮
-            const durationKnob = document.getElementById('durationKnob');
-            durationKnob.addEventListener('click', (e) => {
-                handleKnobInteraction(e, 'durationKnob', setNoteDuration, 0.1, 2);
-            });
-            durationKnob.addEventListener('touchstart', (e) => {
-                handleKnobInteraction(e, 'durationKnob', setNoteDuration, 0.1, 2);
+                // 将角度映射到0.1-2秒范围
+                const newDuration = 0.1 + (normalizedAngle / 360) * 1.9;
+                setNoteDuration(newDuration);
             });
             
-            // 音量旋钮
-            const volumeKnob = document.getElementById('volumeKnob');
-            volumeKnob.addEventListener('click', (e) => {
-                handleKnobInteraction(e, 'volumeKnob', setVolume, 0, 1);
-            });
-            volumeKnob.addEventListener('touchstart', (e) => {
-                handleKnobInteraction(e, 'volumeKnob', setVolume, 0, 1);
+            // 新增：音量旋钮事件监听
+            document.getElementById('volumeKnob').addEventListener('click', (e) => {
+                const knob = e.currentTarget;
+                const rect = knob.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                // 计算角度 (0-360度)
+                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI);
+                // 将角度转换为0-360范围
+                const normalizedAngle = (angle + 360) % 360;
+                
+                // 将角度映射到0-1范围
+                const newVolume = normalizedAngle / 360;
+                setVolume(newVolume);
             });
             
-            // 播放时长按钮事件监听
+            // 新增：播放时长按钮事件监听
             document.getElementById('durationDecrease').addEventListener('click', () => {
                 setNoteDuration(Math.max(0.1, noteDuration - 0.1));
             });
@@ -1256,7 +1265,7 @@
                 setNoteDuration(Math.min(2, noteDuration + 0.1));
             });
             
-            // 音量按钮事件监听
+            // 新增：音量按钮事件监听
             document.getElementById('volumeDecrease').addEventListener('click', () => {
                 setVolume(Math.max(0, volumeLevel - 0.1));
             });
@@ -1266,14 +1275,80 @@
             });
         }
         
-        // 设置播放时长
+        // 验证音符数量
+        function validateNoteCount(value, isInput = false) {
+            if (isNaN(value)) {
+                noteCountError.textContent = "请输入有效数字";
+                noteCountError.classList.add('show');
+                return false;
+            }
+            
+            if (value < 1 || value > 25) {
+                noteCountError.textContent = "请输入1-25之间的数字";
+                noteCountError.classList.add('show');
+                
+                // 如果是change事件，修正为边界值
+                if (!isInput) {
+                    if (value < 1) {
+                        noteCountInput.value = 1;
+                        updateNoteCount(1);
+                    } else if (value > 25) {
+                        noteCountInput.value = 25;
+                        updateNoteCount(25);
+                    }
+                    noteCountError.classList.remove('show');
+                }
+                return false;
+            }
+            
+            // 验证通过
+            noteCountError.classList.remove('show');
+            
+            // 如果是change事件，更新音符数量
+            if (!isInput) {
+                updateNoteCount(value);
+            }
+            
+            return true;
+        }
+        
+        // 验证随机唱名数量
+        function validateRandomSolfegeCount(value, isInput = false) {
+            if (isNaN(value)) {
+                randomSolfegeCountError.textContent = "请输入有效数字";
+                randomSolfegeCountError.classList.add('show');
+                return false;
+            }
+            
+            if (value < 1 || value > 25) {
+                randomSolfegeCountError.textContent = "请输入1-25之间的数字";
+                randomSolfegeCountError.classList.add('show');
+                
+                // 如果是change事件，修正为边界值
+                if (!isInput) {
+                    if (value < 1) {
+                        randomSolfegeCountInput.value = 1;
+                    } else if (value > 25) {
+                        randomSolfegeCountInput.value = 25;
+                    }
+                    randomSolfegeCountError.classList.remove('show');
+                }
+                return false;
+            }
+            
+            // 验证通过
+            randomSolfegeCountError.classList.remove('show');
+            return true;
+        }
+        
+        // 新增：设置播放时长
         function setNoteDuration(duration) {
             noteDuration = parseFloat(duration.toFixed(1));
             document.getElementById('durationValue').textContent = noteDuration.toFixed(1);
             updateKnobIndicators();
         }
         
-        // 设置音量
+        // 新增：设置音量
         function setVolume(volume) {
             volumeLevel = parseFloat(volume.toFixed(1));
             document.getElementById('volumeValue').textContent = Math.round(volumeLevel * 100) + '%';
@@ -1283,7 +1358,7 @@
             updateKnobIndicators();
         }
         
-        // 更新旋钮指示器位置
+        // 新增：更新旋钮指示器位置
         function updateKnobIndicators() {
             // 播放时长旋钮：0.1-2秒映射到0-360度
             const durationAngle = ((noteDuration - 0.1) / 1.9) * 360;
@@ -1567,6 +1642,8 @@
             // 播放唱名序列
             await playSolfegeSequence();
         }
+        
+
 
         // 重置选择
         function resetSelection() {
@@ -1579,7 +1656,7 @@
             setTimeout(() => statusMessage.textContent = "", 2000);
         }
     
-        // 唱名到音符的映射关系
+        // 新增：唱名到音符的映射关系
         const solfegeToNoteMap = {
             'do': 'C',
             're': 'D',
@@ -1591,7 +1668,7 @@
             'si': 'B' // 兼容不同地区的唱名
         };
         
-        // 播放唱名序列
+        // 新增：播放唱名序列
         async function playSolfegeSequence() {
             const sequenceInput = document.getElementById('solfegeSequence').value.trim();
             if (!sequenceInput) {
