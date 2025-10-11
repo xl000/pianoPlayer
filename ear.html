@@ -1174,6 +1174,20 @@
 
             // 添加箭头滚动功能
             setupScrollArrows();
+
+            // 新增：自动点击两次右箭头
+            setTimeout(() => {
+                const rightArrow = document.querySelector('.right-arrow');
+                if (rightArrow) {
+                    // 第一次点击
+                    rightArrow.click();
+                    // 第二次点击（稍后执行）
+                    setTimeout(() => {
+                        rightArrow.click();
+                    }, 500); // 500毫秒间隔，确保第一次滚动完成
+                }
+            }, 1000); // 等待1秒确保所有元素加载完成
+
         }
         
         // 创建钢琴键盘
