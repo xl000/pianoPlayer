@@ -804,6 +804,8 @@
             /* 新增钢琴滚动容器 */
             .piano-scroll-container {
                 position: relative;
+                display: flex; /* 添加flex布局 */
+                align-items: center; /* 垂直居中 */
                 margin: 20px 0;
             }
 
@@ -816,6 +818,7 @@
                 border-radius: 15px;
                 box-shadow: inset 0 0 15px rgba(128, 222, 234, 0.3);
                 -webkit-overflow-scrolling: touch;
+                flex: 1; /* 占据剩余空间 */
             }
 
 
@@ -880,9 +883,9 @@
 
         /* 调整箭头位置 */
         .scroll-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            position: relative; /* 改为相对定位 */
+            top: auto; /* 移除绝对定位 */
+            transform: none; /* 移除垂直居中变换 */
             width: 40px;
             height: 40px;
             background: rgba(255, 255, 255, 0.7);
@@ -896,6 +899,7 @@
             z-index: 10;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
+            margin: 0 5px; /* 添加左右间距 */
         }
 
 
@@ -904,12 +908,11 @@
             transform: translateY(-50%) scale(1.1);
         }
 
-        .left-arrow {
-            left: 10px;
-        }
-
-        .right-arrow {
-            right: 10px;
+        /* 移除原有的左右箭头定位 */
+        .left-arrow, .right-arrow {
+            position: relative;
+            left: auto;
+            right: auto;
         }
 
         /* 主题样式 */
