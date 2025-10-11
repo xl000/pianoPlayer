@@ -862,30 +862,15 @@
             color: #e53935;
         }
 
-        /* .scroll-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
+        .arrow-container {
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-        } */
+            gap: 20px;
+            margin-top: 10px;
+        }
 
-        /* 调整箭头位置 */
+        /* 调整箭头样式 */
         .scroll-arrow {
-            position: relative; /* 改为相对定位 */
-            top: auto; /* 移除绝对定位 */
-            transform: none; /* 移除垂直居中变换 */
             width: 40px;
             height: 40px;
             background: rgba(255, 255, 255, 0.7);
@@ -896,24 +881,22 @@
             font-size: 24px;
             font-weight: bold;
             cursor: pointer;
-            z-index: 10;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
-            margin: 0 5px; /* 添加左右间距 */
         }
 
 
         .scroll-arrow:hover {
             background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-50%) scale(1.1);
+            transform: scale(1.1);
         }
 
         /* 移除原有的左右箭头定位 */
-        .left-arrow, .right-arrow {
+        /* .left-arrow, .right-arrow {
             position: relative;
             left: auto;
             right: auto;
-        }
+        } */
 
         /* 主题样式 */
         body.default-theme .scroll-arrow {
@@ -1026,13 +1009,13 @@
             </div>
         </div>
         
-        <div class="piano-scroll-container">
-            <div class="scroll-arrow left-arrow">‹</div>
-            <div class="piano-container">
-                <div class="piano" id="piano">
-                    <!-- 钢琴键通过JS动态生成 -->
-                </div>
+        <div class="piano-container">
+            <div class="piano" id="piano">
+                <!-- 钢琴键通过JS动态生成 -->
             </div>
+        </div>
+        <div class="arrow-container">
+            <div class="scroll-arrow left-arrow">‹</div>
             <div class="scroll-arrow right-arrow">›</div>
         </div>
         
