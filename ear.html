@@ -993,20 +993,6 @@
                     <div class="knob-btn" id="durationIncrease">+</div>
                 </div>
             </div>
-            
-            <!-- <div class="knob-container">
-                <div class="knob-label">音量</div>
-                <div class="knob" id="volumeKnob">
-                    <div class="knob-inner">
-                        <div class="knob-value" id="volumeValue">80%</div>
-                        <div class="knob-indicator" id="volumeIndicator"></div>
-                    </div>
-                </div>
-                <div class="knob-controls">
-                    <div class="knob-btn" id="volumeDecrease">-</div>
-                    <div class="knob-btn" id="volumeIncrease">+</div>
-                </div>
-            </div> -->
         </div>
 
         <div class="solfege-playback-container">
@@ -1089,7 +1075,6 @@
 
         // 新增：音效控制变量
         let noteDuration = 0.8; // 默认0.8秒
-        // let volumeLevel = 0.8;  // 默认80%音量 (0-1范围)
 
         const toggleLabelsBtn = document.getElementById('toggleLabelsBtn');
         let labelsVisible = true;
@@ -1131,8 +1116,6 @@
                 document.getElementById('playBtn').disabled = false;
                 document.getElementById('randomBtn').disabled = false;
                 
-                // 设置初始音量
-                // sampler.volume.value = Tone.gainToDb(volumeLevel);
             },
             onerror: (error) => {
                 console.error("音源加载错误:", error);
@@ -1361,22 +1344,6 @@
                 setNoteDuration(newDuration);
             });
             
-            // 新增：音量旋钮事件监听
-            // document.getElementById('volumeKnob').addEventListener('click', (e) => {
-            //     const knob = e.currentTarget;
-            //     const rect = knob.getBoundingClientRect();
-            //     const centerX = rect.left + rect.width / 2;
-            //     const centerY = rect.top + rect.height / 2;
-                
-            //     // 计算角度 (0-360度)
-            //     const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI);
-            //     // 将角度转换为0-360范围
-            //     const normalizedAngle = (angle + 360) % 360;
-                
-            //     // 将角度映射到0-1范围
-            //     const newVolume = normalizedAngle / 360;
-            //     setVolume(newVolume);
-            // });
             
             // 新增：播放时长按钮事件监听
             document.getElementById('durationDecrease').addEventListener('click', () => {
@@ -1387,14 +1354,6 @@
                 setNoteDuration(Math.min(2, noteDuration + 0.1));
             });
             
-            // 新增：音量按钮事件监听
-            // document.getElementById('volumeDecrease').addEventListener('click', () => {
-            //     setVolume(Math.max(0, volumeLevel - 0.1));
-            // });
-            
-            // document.getElementById('volumeIncrease').addEventListener('click', () => {
-            //     setVolume(Math.min(1, volumeLevel + 0.1));
-            // });
         }
         
         // 验证音符数量
@@ -1470,25 +1429,12 @@
             updateKnobIndicators();
         }
         
-        // 新增：设置音量
-        // function setVolume(volume) {
-        //     volumeLevel = parseFloat(volume.toFixed(1));
-        //     document.getElementById('volumeValue').textContent = Math.round(volumeLevel * 100) + '%';
-            
-        //     // 设置Tone.js音量 (转换为分贝值)
-        //     sampler.volume.value = Tone.gainToDb(volumeLevel);
-        //     updateKnobIndicators();
-        // }
-        
         // 新增：更新旋钮指示器位置
         function updateKnobIndicators() {
             // 播放时长旋钮：0.1-2秒映射到0-360度
             const durationAngle = ((noteDuration - 0.1) / 1.9) * 360;
             document.getElementById('durationIndicator').style.transform = `translateX(-50%) rotate(${durationAngle}deg)`;
             
-            // 音量旋钮：0-1映射到0-360度
-        //     const volumeAngle = volumeLevel * 360;
-        //     document.getElementById('volumeIndicator').style.transform = `translateX(-50%) rotate(${volumeAngle}deg)`;
         }
 
         // 更新音符数量
