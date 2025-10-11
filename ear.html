@@ -362,9 +362,11 @@
             box-shadow: 0 0 8px rgba(77, 182, 172, 0.8);
         }
         
+        
         .knob-controls {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* 改为居中 */
+            gap: 5px; /* 减少间距 */
             width: 100%;
             margin-top: 8px;
         }
@@ -382,6 +384,7 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: all 0.2s;
+            margin: 0 2px; /* 添加左右边距 */
         }
         
         .knob-btn:hover {
@@ -914,6 +917,18 @@
             color: #e0e0e0;
         }
 
+        body.default-theme .knob-btn {
+            background: linear-gradient(to bottom, #80cbc4, #4db6ac);
+        }
+
+        body.pink-theme .knob-btn {
+            background: linear-gradient(to bottom, #f8bbd0, #f48fb1);
+        }
+
+        body.dark-theme .knob-btn {
+            background: linear-gradient(to bottom, #3949ab, #1e88e5);
+        }
+
         /* 只在移动设备和平板上显示箭头 */
         @media (max-width: 768px) {
             .scroll-arrow {
@@ -966,7 +981,7 @@
 
         <div class="controls-container">
             <div class="knob-container">
-                <div class="knob-label">播放时长 (秒)</div>
+                <div class="knob-label">单音时长 (秒)</div>
                 <div class="knob" id="durationKnob">
                     <div class="knob-inner">
                         <div class="knob-value" id="durationValue">0.8</div>
@@ -979,7 +994,7 @@
                 </div>
             </div>
             
-            <div class="knob-container">
+            <!-- <div class="knob-container">
                 <div class="knob-label">音量</div>
                 <div class="knob" id="volumeKnob">
                     <div class="knob-inner">
@@ -991,7 +1006,7 @@
                     <div class="knob-btn" id="volumeDecrease">-</div>
                     <div class="knob-btn" id="volumeIncrease">+</div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="solfege-playback-container">
@@ -1074,7 +1089,7 @@
 
         // 新增：音效控制变量
         let noteDuration = 0.8; // 默认0.8秒
-        let volumeLevel = 0.8;  // 默认80%音量 (0-1范围)
+        // let volumeLevel = 0.8;  // 默认80%音量 (0-1范围)
 
         const toggleLabelsBtn = document.getElementById('toggleLabelsBtn');
         let labelsVisible = true;
@@ -1117,7 +1132,7 @@
                 document.getElementById('randomBtn').disabled = false;
                 
                 // 设置初始音量
-                sampler.volume.value = Tone.gainToDb(volumeLevel);
+                // sampler.volume.value = Tone.gainToDb(volumeLevel);
             },
             onerror: (error) => {
                 console.error("音源加载错误:", error);
@@ -1347,21 +1362,21 @@
             });
             
             // 新增：音量旋钮事件监听
-            document.getElementById('volumeKnob').addEventListener('click', (e) => {
-                const knob = e.currentTarget;
-                const rect = knob.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
+            // document.getElementById('volumeKnob').addEventListener('click', (e) => {
+            //     const knob = e.currentTarget;
+            //     const rect = knob.getBoundingClientRect();
+            //     const centerX = rect.left + rect.width / 2;
+            //     const centerY = rect.top + rect.height / 2;
                 
-                // 计算角度 (0-360度)
-                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI);
-                // 将角度转换为0-360范围
-                const normalizedAngle = (angle + 360) % 360;
+            //     // 计算角度 (0-360度)
+            //     const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * (180 / Math.PI);
+            //     // 将角度转换为0-360范围
+            //     const normalizedAngle = (angle + 360) % 360;
                 
-                // 将角度映射到0-1范围
-                const newVolume = normalizedAngle / 360;
-                setVolume(newVolume);
-            });
+            //     // 将角度映射到0-1范围
+            //     const newVolume = normalizedAngle / 360;
+            //     setVolume(newVolume);
+            // });
             
             // 新增：播放时长按钮事件监听
             document.getElementById('durationDecrease').addEventListener('click', () => {
@@ -1373,13 +1388,13 @@
             });
             
             // 新增：音量按钮事件监听
-            document.getElementById('volumeDecrease').addEventListener('click', () => {
-                setVolume(Math.max(0, volumeLevel - 0.1));
-            });
+            // document.getElementById('volumeDecrease').addEventListener('click', () => {
+            //     setVolume(Math.max(0, volumeLevel - 0.1));
+            // });
             
-            document.getElementById('volumeIncrease').addEventListener('click', () => {
-                setVolume(Math.min(1, volumeLevel + 0.1));
-            });
+            // document.getElementById('volumeIncrease').addEventListener('click', () => {
+            //     setVolume(Math.min(1, volumeLevel + 0.1));
+            // });
         }
         
         // 验证音符数量
@@ -1456,14 +1471,14 @@
         }
         
         // 新增：设置音量
-        function setVolume(volume) {
-            volumeLevel = parseFloat(volume.toFixed(1));
-            document.getElementById('volumeValue').textContent = Math.round(volumeLevel * 100) + '%';
+        // function setVolume(volume) {
+        //     volumeLevel = parseFloat(volume.toFixed(1));
+        //     document.getElementById('volumeValue').textContent = Math.round(volumeLevel * 100) + '%';
             
-            // 设置Tone.js音量 (转换为分贝值)
-            sampler.volume.value = Tone.gainToDb(volumeLevel);
-            updateKnobIndicators();
-        }
+        //     // 设置Tone.js音量 (转换为分贝值)
+        //     sampler.volume.value = Tone.gainToDb(volumeLevel);
+        //     updateKnobIndicators();
+        // }
         
         // 新增：更新旋钮指示器位置
         function updateKnobIndicators() {
@@ -1472,8 +1487,8 @@
             document.getElementById('durationIndicator').style.transform = `translateX(-50%) rotate(${durationAngle}deg)`;
             
             // 音量旋钮：0-1映射到0-360度
-            const volumeAngle = volumeLevel * 360;
-            document.getElementById('volumeIndicator').style.transform = `translateX(-50%) rotate(${volumeAngle}deg)`;
+        //     const volumeAngle = volumeLevel * 360;
+        //     document.getElementById('volumeIndicator').style.transform = `translateX(-50%) rotate(${volumeAngle}deg)`;
         }
 
         // 更新音符数量
