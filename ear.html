@@ -262,7 +262,7 @@
             margin: 15px 0;
         }
 
-        .control-group {
+        /* .control-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -271,6 +271,12 @@
             min-width: 150px;
             width: 100%;
             box-shadow: 0 4px 10px rgba(0, 131, 143, 0.1);
+        } */
+         /* 修改点1：调整控制组宽度 */
+        .control-group {
+            min-width: 150px;
+            width: 100%;
+            max-width: 280px; /* 添加最大宽度限制 */
         }
 
         .control-label {
@@ -296,12 +302,22 @@
             box-shadow: 0 0 8px rgba(77, 182, 172, 0.4);
         }
 
+        /* .knob-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 12px 0;
+            width: 100%;
+        } */
+         /* 修改点2：调整旋钮容器布局 */
         .knob-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 12px 0;
             width: 100%;
+            max-width: 200px; /* 添加最大宽度限制 */
+            margin: 0 auto; /* 居中显示 */
         }
         
         .knob-label {
@@ -496,12 +512,27 @@
             text-shadow: 0 0 3px #fff;
         }
 
+        /* .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        } */
+
+        /* 修改点9：调整按钮组布局 */
         .button-group {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
             margin-top: 15px;
+        }
+
+        .button-group button {
+            min-width: 140px;
+            max-width: 180px;
+            flex: 1 1 auto;
         }
 
         button {
@@ -645,7 +676,7 @@
             font-style: italic;
         }
 
-        .solfege-playback-container {
+        /* .solfege-playback-container {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -654,6 +685,12 @@
             margin: 15px auto;
             max-width: 600px;
             box-shadow: 0 4px 8px rgba(0, 131, 143, 0.1);
+        } */
+        /* 修改点7：调整点播容器布局 */
+        .solfege-playback-container {
+            max-width: 600px;
+            margin: 15px auto;
+            padding: 15px;
         }
         
         .solfege-playback-label {
@@ -663,12 +700,18 @@
             text-align: center;
         }
         
+        /* .solfege-input-group {
+            display: flex;
+            gap: 8px;
+        } */
+         /* 修改点3：调整点播按钮布局 */
         .solfege-input-group {
             display: flex;
             gap: 8px;
+            flex-wrap: nowrap; /* 防止换行 */
         }
         
-        .solfege-sequence-input {
+        /* .solfege-sequence-input {
             flex: 1;
             padding: 10px;
             border-radius: 10px;
@@ -676,17 +719,27 @@
             background: rgba(255, 255, 255, 0.9);
             color: #004d40;
             font-size: 0.95rem;
+        } */
+        .solfege-sequence-input {
+            flex: 1;
+            min-width: 120px; /* 设置最小宽度 */
         }
-        
+
         .solfege-sequence-input:focus {
             border-color: #4db6ac;
             outline: none;
             box-shadow: 0 0 8px rgba(77, 182, 172, 0.4);
         }
         
-        .playback-btn {
+        /* .playback-btn {
             min-width: 80px;
             padding: 10px;
+        } */
+        .playback-btn {
+            min-width: 80px;
+            max-width: 100px; /* 限制最大宽度 */
+            padding: 10px;
+            white-space: nowrap; /* 防止文字换行 */
         }
         
         .playback-btn:hover {
@@ -700,6 +753,235 @@
             color: #00838f;
         }
 
+        /* 错误提示样式 */
+        .error-message {
+            color: #ff4444;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            height: 18px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        /* 暗色主题错误提示 */
+        body.dark-theme .error-message {
+            color: #ff6666;
+        }
+        
+        /* 粉色主题错误提示 */
+        body.pink-theme .error-message {
+            color: #e53935;
+        }
+
+        .arrow-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        /* 调整箭头样式 */
+        .scroll-arrow {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+
+        .scroll-arrow:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
+        }
+
+        /* 主题样式 */
+        body.default-theme .scroll-arrow {
+            background: rgba(255, 255, 255, 0.7);
+            color: #00838f;
+        }
+
+        body.pink-theme .scroll-arrow {
+            background: rgba(255, 255, 255, 0.7);
+            color: #f06292;
+        }
+
+        body.dark-theme .scroll-arrow {
+            background: rgba(45, 45, 66, 0.7);
+            color: #e0e0e0;
+        }
+
+        body.default-theme .knob-btn {
+            background: linear-gradient(to bottom, #80cbc4, #4db6ac);
+        }
+
+        body.pink-theme .knob-btn {
+            background: linear-gradient(to bottom, #f8bbd0, #f48fb1);
+        }
+
+        body.dark-theme .knob-btn {
+            background: linear-gradient(to bottom, #3949ab, #1e88e5);
+        }
+
+        /* 设备检测类 */
+        /* .desktop-view .controls-container {
+            flex-direction: row;
+            justify-content: space-between;
+        } */
+         /* 修改点4：调整桌面视图下的布局 */
+        .desktop-view .controls-container {
+            flex-direction: row;
+            justify-content: center; /* 居中而不是两端对齐 */
+            flex-wrap: wrap;
+        }
+
+        
+        /* .desktop-view .control-group {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+        } */
+        .desktop-view .control-group {
+            flex: 0 0 auto; /* 不自动伸缩 */
+            min-width: 200px;
+            max-width: 240px; /* 更小的最大宽度 */
+            margin: 0 10px 15px; /* 添加间距 */
+        }
+        
+        /* .desktop-view .knob-container {
+            width: auto;
+            flex: 0 0 auto;
+        } */
+        .desktop-view .knob-container {
+            flex: 0 0 auto;
+            max-width: 180px;
+            margin: 0 auto 20px;
+        }
+        
+        .desktop-view .piano-container {
+            height: 200px;
+        }
+        
+        .desktop-view .white {
+            width: 45px;
+            height: 180px;
+        }
+        
+        .desktop-view .black {
+            width: 28px;
+            height: 110px;
+            margin: 0 -14px;
+        }
+        
+        .desktop-view .button-group {
+            flex-wrap: nowrap;
+        }
+        
+        .desktop-view .scroll-arrow {
+            width: 50px;
+            height: 50px;
+            font-size: 30px;
+        }
+        
+        .desktop-view .solfege-playback-container {
+            max-width: 800px;
+        }
+        
+        .desktop-view .selected-notes-container {
+            flex-direction: row;
+            justify-content: center;
+        }
+        
+        .desktop-view .selected-notes {
+            flex-wrap: nowrap;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 10px;
+        }
+        
+        .desktop-view .note-display {
+            min-width: 120px;
+            max-width: 140px;
+        }
+        
+        /* .tablet-landscape-view .controls-container {
+            flex-direction: row;
+            flex-wrap: wrap;
+        } */
+         /* 修改点5：调整平板视图下的布局 */
+        .tablet-landscape-view .controls-container {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        /* .tablet-landscape-view .control-group {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+        } */
+        .tablet-landscape-view .control-group {
+            flex: 0 0 auto;
+            min-width: 200px;
+            max-width: 220px;
+            margin: 0 8px 12px;
+        }
+        
+        /* .tablet-landscape-view .knob-container {
+            width: auto;
+        } */
+        .tablet-landscape-view .knob-container {
+            width: auto;
+            max-width: 180px;
+            margin: 0 auto 15px;
+        }
+        
+        .tablet-landscape-view .piano-container {
+            height: 180px;
+        }
+        
+        .tablet-landscape-view .white {
+            width: 38px;
+            height: 170px;
+        }
+        
+        .tablet-landscape-view .black {
+            width: 24px;
+            height: 100px;
+            margin: 0 -12px;
+        }
+        
+        .tablet-landscape-view .scroll-arrow {
+            width: 45px;
+            height: 45px;
+            font-size: 28px;
+        }
+        
+        .tablet-landscape-view .solfege-playback-container {
+            max-width: 700px;
+        }
+        
+        .tablet-landscape-view .selected-notes {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 10px;
+        }
+        
+        .tablet-landscape-view .note-display {
+            min-width: 110px;
+            max-width: 120px;
+        }
+        
         /* 手机竖屏优化 */
         @media (max-width: 480px) {
             .container {
@@ -787,7 +1069,7 @@
         }
 
         /* 平板优化 */
-        @media (min-width: 481px) and (max-width: 768px) {
+        @media (min-width: 481px) and (max-width: 1024px) {
             .container {
                 padding: 18px;
             }
@@ -804,27 +1086,9 @@
                 width: 45%;
             }
             
-            /* 新增钢琴滚动容器 */
-            .piano-scroll-container {
-                position: relative;
-                display: flex; /* 添加flex布局 */
-                align-items: center; /* 垂直居中 */
-                margin: 20px 0;
-            }
-
-            /* 调整钢琴容器样式 */
             .piano-container {
-                position: relative;
                 height: 160px;
-                overflow-x: auto;
-                padding-bottom: 15px;
-                border-radius: 15px;
-                box-shadow: inset 0 0 15px rgba(128, 222, 234, 0.3);
-                -webkit-overflow-scrolling: touch;
-                flex: 1; /* 占据剩余空间 */
             }
-
-
             
             .white {
                 width: 30px;
@@ -842,105 +1106,146 @@
             }
         }
 
-        /* 错误提示样式 */
-        .error-message {
-            color: #ff4444;
-            font-size: 0.75rem;
-            margin-top: 4px;
-            height: 18px;
-            display: none;
+        /* 移动端竖屏优化 */
+    .mobile-view .container {
+        padding: 15px;
+    }
+
+    .mobile-view h1 {
+        font-size: 1.8rem;
+    }
+
+    .mobile-view .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .mobile-view .controls-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* .mobile-view .control-group {
+        min-width: 100%;
+    } */
+    /* 修改点6：调整移动视图下的布局 */
+    .mobile-view .control-group {
+        min-width: 100%;
+        max-width: 280px;
+        margin: 0 auto 15px;
+    }
+
+    /* .mobile-view .knob-container {
+        width: 100%;
+    } */
+    .mobile-view .knob-container {
+        width: 100%;
+        max-width: 180px;
+        margin: 0 auto 15px;
+    }
+
+    .mobile-view .knob {
+        width: 65px;
+        height: 65px;
+    }
+
+    .mobile-view .knob-inner {
+        width: 45px;
+        height: 45px;
+    }
+
+    .mobile-view .knob-value {
+        font-size: 1rem;
+    }
+
+    .mobile-view .piano-container {
+        height: 140px;
+    }
+
+    .mobile-view .white {
+        width: 28px;
+        height: 130px;
+    }
+
+    .mobile-view .black {
+        width: 18px;
+        height: 80px;
+        margin: 0 -9px;
+    }
+
+    .mobile-view .note-display {
+        max-width: 85px;
+        padding: 10px;
+        min-width: 80px;
+    }
+
+    .mobile-view .key-label {
+        font-size: 0.6rem;
+    }
+
+    .mobile-view button {
+        min-width: 120px;
+        padding: 10px 15px;
+        font-size: 0.95rem;
+    }
+
+    .mobile-view .solfege-playback-container {
+        padding: 12px;
+    }
+
+    .mobile-view .solfege-sequence-input {
+        font-size: 0.9rem;
+    }
+
+    .mobile-view .playback-btn {
+        min-width: 70px;
+        padding: 8px;
+    }
+
+    /* 确保箭头在所有设备上都显示 */
+    .arrow-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 10px;
+    }
+
+    /* 平板优化 */
+    @media (min-width: 481px) and (max-width: 1024px) {
+        .tablet-landscape-view .container {
+            padding: 18px;
         }
         
-        .error-message.show {
-            display: block;
+        .tablet-landscape-view h1 {
+            font-size: 2rem;
         }
         
-        /* 暗色主题错误提示 */
-        body.dark-theme .error-message {
-            color: #ff6666;
+        .tablet-landscape-view .control-group {
+            min-width: 45%;
         }
         
-        /* 粉色主题错误提示 */
-        body.pink-theme .error-message {
-            color: #e53935;
+        .tablet-landscape-view .knob-container {
+            width: 45%;
         }
-
-        .arrow-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
+        
+        .tablet-landscape-view .piano-container {
+            height: 160px;
         }
-
-        /* 调整箭头样式 */
-        .scroll-arrow {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
+        
+        .tablet-landscape-view .white {
+            width: 30px;
+            height: 140px;
         }
-
-
-        .scroll-arrow:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.1);
+        
+        .tablet-landscape-view .black {
+            width: 20px;
+            height: 85px;
+            margin: 0 -10px;
         }
-
-        /* 移除原有的左右箭头定位 */
-        /* .left-arrow, .right-arrow {
-            position: relative;
-            left: auto;
-            right: auto;
-        } */
-
-        /* 主题样式 */
-        body.default-theme .scroll-arrow {
-            background: rgba(255, 255, 255, 0.7);
-            color: #00838f;
+        
+        .tablet-landscape-view button {
+            min-width: 140px;
         }
-
-        body.pink-theme .scroll-arrow {
-            background: rgba(255, 255, 255, 0.7);
-            color: #f06292;
-        }
-
-        body.dark-theme .scroll-arrow {
-            background: rgba(45, 45, 66, 0.7);
-            color: #e0e0e0;
-        }
-
-        body.default-theme .knob-btn {
-            background: linear-gradient(to bottom, #80cbc4, #4db6ac);
-        }
-
-        body.pink-theme .knob-btn {
-            background: linear-gradient(to bottom, #f8bbd0, #f48fb1);
-        }
-
-        body.dark-theme .knob-btn {
-            background: linear-gradient(to bottom, #3949ab, #1e88e5);
-        }
-
-        /* 只在移动设备和平板上显示箭头 */
-        @media (max-width: 768px) {
-            .scroll-arrow {
-                display: flex;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .scroll-arrow {
-                display: none;
-            }
-        }
+    }
     </style>
 </head>
 <body class="default-theme">
@@ -984,7 +1289,7 @@
                 <div class="knob-label">单音时长 (秒)</div>
                 <div class="knob" id="durationKnob">
                     <div class="knob-inner">
-                        <div class="knob-value" id="durationValue">0.8</div>
+                        <div class="knob-value" id="durationValue">0.4</div>
                         <div class="knob-indicator" id="durationIndicator"></div>
                     </div>
                 </div>
@@ -1074,7 +1379,7 @@
         });
 
         // 新增：音效控制变量
-        let noteDuration = 0.8; // 默认0.8秒
+        let noteDuration = 0.4; // 默认0.4秒
 
         const toggleLabelsBtn = document.getElementById('toggleLabelsBtn');
         let labelsVisible = true;
@@ -1158,6 +1463,10 @@
         
         // 初始化函数
         function init() {
+            // 检测设备类型
+            detectDevice();
+            window.addEventListener('resize', detectDevice);
+
             createPiano();
             setupEventListeners();
             updateNoteCount(3); // 初始化为3个音符
@@ -1874,6 +2183,23 @@
                 const walk = (x - startX) * 2; // 增加滑动灵敏度
                 pianoContainer.scrollLeft = scrollLeft - walk;
             });
+        }
+
+        // 设备检测函数
+        function detectDevice() {
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const isTablet = window.matchMedia("(min-width: 768px) and (max-width: 1024px)").matches;
+            const isMobile = window.matchMedia("(max-width: 767px)").matches;
+            
+            document.body.classList.remove('desktop-view', 'tablet-landscape-view', 'mobile-view');
+            
+            if (isMac || (!isTablet && !isMobile)) {
+                document.body.classList.add('desktop-view');
+            } else if (isTablet && window.innerWidth > window.innerHeight) {
+                document.body.classList.add('tablet-landscape-view');
+            } else {
+                document.body.classList.add('mobile-view');
+            }
         }
         
         // 初始化应用
