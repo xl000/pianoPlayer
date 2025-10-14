@@ -721,7 +721,7 @@
             
             // 生成上行音阶
             const ascendingScale = [];
-            for (let i = 0; i <= 12; i++) {
+            for (let i = 1; i <= 12; i++) {
                 const index = (currentIndex + i) % notes.length;
                 const octaveOffset = Math.floor((currentIndex + i) / notes.length);
                 const note = notes[index] + (currentOctave + octaveOffset);
@@ -730,7 +730,7 @@
             
             // 生成下行音阶
             const descendingScale = [];
-            for (let i = 0; i <= 12; i++) {
+            for (let i = 1; i <= 12; i++) {
                 const index = (currentIndex - i + notes.length * 10) % notes.length;
                 const octaveOffset = Math.floor((currentIndex - i) / notes.length);
                 const note = notes[index] + (currentOctave + octaveOffset);
@@ -759,8 +759,8 @@
                 solfegeMap[ascendingScale[i]] = ascendingSolfege[i];
             }
             
-            // 映射下行部分（不包括基准音）
-            for (let i = 1; i < descendingScale.length; i++) {
+            // 映射下行部分
+            for (let i = 0; i < descendingScale.length; i++) {
                 solfegeMap[descendingScale[i]] = descendingSolfege[i];
             }
         }
