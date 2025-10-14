@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>钢琴音阶训练器</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a237e, #0d47a1, #1e88e5);
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(30, 30, 46, 0.85);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
+            backdrop-filter: blur(10px);
+            margin-top: 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #64ffda;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #bbdefb;
+        }
+
+        .highlight {
+            color: #ffd54f;
+            font-weight: bold;
+        }
+
+        .piano-container {
+            position: relative;
+            height: 200px;
+            margin: 20px 0;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            border-radius: 15px;
+            box-shadow: inset 0 0 15px rgba(128, 222, 234, 0.3);
+            -webkit-overflow-scrolling: touch;
+            background: rgba(45, 45, 66, 0.7);
+        }
+
+        .piano {
+            position: relative;
+            display: inline-flex;
+            height: 180px;
+            min-width: max-content;
+            margin: 8px auto;
+        }
+
+        .key {
+            position: relative;
+            cursor: pointer;
+            border-radius: 0 0 6px 6px;
+            transition: all 0.2s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            touch-action: manipulation;
+        }
+
+        .white {
+            width: 35px;
+            height: 180px;
+            background: linear-gradient(to bottom, #fff 0%, #f5f5f5 100%);
+            border: 1px solid #e0e0e0;
+            z-index: 1;
+        }
+
+        .white:hover {
+            background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+        }
+
+        .black {
+            width: 22px;
+            height: 110px;
+            background: linear-gradient(to bottom, #455a64 0%, #37474f 100%);
+            margin: 0 -11px;
+            z-index: 2;
+        }
+
+        .black:hover {
+            background: linear-gradient(to bottom, #546e7a 0%, #455a64 100%);
+        }
+
+        .playing {
+            background: linear-gradient(to bottom, #64b5f6, #2196f3) !important;
+        }
+
+        .key-label {
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #455a64;
+        }
+
+        .black .key-label {
+            color: #fff;
+            bottom: 6px;
+        }
+
+        .arrow-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .scroll-arrow {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            color: #1e88e5;
+        }
+
+        .scroll-arrow:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
+        }
+
+        /* 控制面板样式 */
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(55, 55, 75, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            min-width: 200px;
+        }
+
+        .control-label {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #64ffda;
+        }
+
+        select, button {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+
+        select {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: linear-gradient(to right, #1e88e5, #0d47a1);
+            color: white;
+            box-shadow: 0 4px 10px rgba(13, 71, 161, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(13, 71, 161, 0.6);
+        }
+
+        button:disabled {
+            background: linear-gradient(to right, #78909c, #546e7a);
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* 阶梯式唱名显示屏幕 */
+        .display-screen {
+            background: rgba(30, 30, 46, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 250px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .screen-title {
+            text-align: center;
+            color: #64ffda;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .scale-display {
+            display: flex;
+            justify-content: center;
+            height: 200px;
+            position: relative;
+        }
+
+        .step {
+            width: 60px;
+            text-align: center;
+            margin: 0 5px;
+            transition: all 0.5s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-label {
+            background: rgba(30, 136, 229, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        .step.active .step-label {
+            background: linear-gradient(to bottom, #ffd54f, #ffb300);
+            color: #1a237e;
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(255, 179, 0, 0.5);
+        }
+
+        .step-line {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        /* 动画效果 */
+        @keyframes stepActive {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1.1); }
+        }
+
+        .step.active .step-label {
+            animation: stepActive 0.5s ease;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .control-panel {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-group {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .step {
+                width: 40px;
+            }
+            
+            .step-label {
+                font-size: 1rem;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .piano-container {
+                height: 160px;
+            }
+            
+            .white {
+                width: 28px;
+                height: 150px;
+            }
+            
+            .black {
+                width: 18px;
+                height: 90px;
+                margin: 0 -9px;
+            }
+            
+            .key-label {
+                font-size: 0.6rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .step {
+                width: 30px;
+            }
+            
+            .step-label {
+                font-size: 0.9rem;
+                padding: 6px;
+            }
+            
+            .display-screen {
+                min-height: 220px;
+            }
+            
+            .scale-display {
+                height: 170px;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 1024px) {
+            .piano-container {
+                height: 180px;
+            }
+            
+            .white {
+                width: 32px;
+                height: 160px;
+            }
+            
+            .black {
+                width: 20px;
+                height: 100px;
+                margin: 0 -10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>钢琴音阶训练器</h1>
+            <div class="description">
+                <p>选择基准音和音阶类型，练习大调、小调或半音音阶</p>
+                <p>选择上行或下行音阶，点击播放按钮开始训练</p>
+            </div>
+        </header>
+        
+        <div class="piano-container">
+            <div class="piano" id="piano">
+                <!-- 钢琴键通过JS动态生成 -->
+            </div>
+        </div>
+        <div class="arrow-container">
+            <div class="scroll-arrow left-arrow">‹</div>
+            <div class="scroll-arrow right-arrow">›</div>
+        </div>
+        
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <div class="control-group">
+                <div class="control-label">选择基准音</div>
+                <select id="baseNote">
+                    <!-- 基准音选项将通过JS动态生成 -->
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">选择音阶类型</div>
+                <select id="scaleType">
+                    <option value="major">大调音阶</option>
+                    <option value="minor">小调音阶</option>
+                    <option value="chromatic">半音音阶</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <div class="control-label">选择音阶方向</div>
+                <select id="scaleDirection">
+                    <option value="ascending">上行音阶</option>
+                    <option value="descending">下行音阶</option>
+                </select>
+                <button id="playScaleBtn">播放音阶</button>
+            </div>
+        </div>
+        
+        <!-- 阶梯式唱名显示屏幕 -->
+        <div class="display-screen">
+            <div class="screen-title">音阶显示</div>
+            <div class="scale-display" id="scaleDisplay">
+                <!-- 阶梯式唱名将在这里动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化Tone.js - 使用本地下载的音源
+        const sampler = new Tone.Sampler({
+            urls: {
+                "C1": "C1.mp3",
+                "A1": "A1.mp3",
+                "C2": "C2.mp3",
+                "A2": "A2.mp3",
+                "C3": "C3.mp3",
+                "A3": "A3.mp3",
+                "C4": "C4.mp3",
+                "A4": "A4.mp3",
+                "C5": "C5.mp3",
+                "A5": "A5.mp3",
+                "C6": "C6.mp3",
+                "A6": "A6.mp3"
+            },
+            baseUrl: "./",  
+            onload: () => {
+                console.log("本地钢琴音源加载完成");
+                createBaseNoteOptions();
+                createScaleDisplay();
+            },
+            onerror: (error) => {
+                console.error("音源加载错误:", error);
+            }
+        }).toDestination();
+    
+        // 获取DOM元素
+        const piano = document.getElementById('piano');
+        const playScaleBtn = document.getElementById('playScaleBtn');
+        const scaleDirection = document.getElementById('scaleDirection');
+        const baseNoteSelect = document.getElementById('baseNote');
+        const scaleTypeSelect = document.getElementById('scaleType');
+        const scaleDisplay = document.getElementById('scaleDisplay');
+        
+        // 钢琴键盘配置 - 扩展到C1到B6（6个八度）
+        const octaveStart = 1; // 从C1开始
+        const octaveEnd = 6;   // 到B6结束
+        const blackKeys = ["C#", "D#", "F#", "G#", "A#"];
+        
+        // 音符列表
+        const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        
+        // 当前基准音
+        let baseNote = "A3";
+        
+        // 当前音阶类型
+        let scaleType = "major";
+        
+        // 唱名映射（首调唱名法）
+        let solfegeMap = {};
+        
+        // 音阶的音符（两个八度范围）
+        let scaleNotes = [];
+        
+        // 初始化函数
+        function init() {
+            createPiano();
+            setupScrollArrows();
+            createScaleDisplay();
+        }
+        
+        // 创建钢琴键盘
+        function createPiano() {
+            piano.innerHTML = '';
+            
+            for (let octave = octaveStart; octave <= octaveEnd; octave++) {
+                for (let i = 0; i < notes.length; i++) {
+                    const note = notes[i];
+                    const fullNote = note + octave;
+                    const isBlack = blackKeys.includes(note);
+                    
+                    const key = document.createElement('div');
+                    key.className = `key ${isBlack ? 'black' : 'white'}`;
+                    key.dataset.note = fullNote;
+                    key.id = `key-${fullNote}`;
+                    
+                    const label = document.createElement('div');
+                    label.className = 'key-label';
+                    label.textContent = fullNote;
+                    key.appendChild(label);
+                    
+                    // 点击琴键时播放声音
+                    key.addEventListener('click', async () => {
+                        // 播放当前点击的音符
+                        try {
+                            // 确保音频上下文已启动
+                            if (Tone.context.state !== 'running') {
+                                // 尝试启动音频上下文
+                                await Tone.start();
+                            }
+                            
+                            // 添加播放效果
+                            key.classList.add('playing');
+                            setTimeout(() => key.classList.remove('playing'), 300);
+                            
+                            // 播放音符
+                            sampler.triggerAttackRelease(fullNote, 0.4);
+                        } catch (error) {
+                            console.error("播放错误:", error);
+                        }
+                    });
+                    
+                    // 添加触摸事件支持
+                    key.addEventListener('touchstart', async (e) => {
+                        e.preventDefault();
+                        // 播放当前点击的音符
+                        try {
+                            // 确保音频上下文已启动
+                            if (Tone.context.state !== 'running') {
+                                // 尝试启动音频上下文
+                                await Tone.start();
+                            }
+                            
+                            // 添加播放效果
+                            key.classList.add('playing');
+                            setTimeout(() => key.classList.remove('playing'), 300);
+                            
+                            // 播放音符
+                            sampler.triggerAttackRelease(fullNote, 0.4);
+                        } catch (error) {
+                            console.error("播放错误:", error);
+                        }
+                    });
+                    
+                    piano.appendChild(key);
+                }
+            }
+        }
+        
+        // 创建基准音选项
+        function createBaseNoteOptions() {
+            baseNoteSelect.innerHTML = '';
+            
+            // 创建从C2到B5的音符作为基准音选项
+            for (let octave = 2; octave <= 5; octave++) {
+                for (let i = 0; i < notes.length; i++) {
+                    const note = notes[i];
+                    const fullNote = note + octave;
+                    
+                    const option = document.createElement('option');
+                    option.value = fullNote;
+                    option.textContent = fullNote;
+                    
+                    if (fullNote === baseNote) {
+                        option.selected = true;
+                    }
+                    
+                    baseNoteSelect.appendChild(option);
+                }
+            }
+        }
+        
+        // 生成大调音阶
+        function generateMajorScale() {
+            // 大调音阶的音程模式（半音数）
+            const majorScaleIntervals = [2, 2, 1, 2, 2, 2, 1];
+            
+            // 解析基准音
+            const baseNoteName = baseNote.replace(/\d+/, '');
+            const baseOctave = parseInt(baseNote.match(/\d+/)[0]);
+            
+            // 找到基准音在音符列表中的位置
+            let currentIndex = notes.indexOf(baseNoteName);
+            let currentOctave = baseOctave;
+            
+            // 生成上行音阶
+            const ascendingScale = [baseNote];
+            let cumulativeInterval = 0;
+            
+            for (let i = 0; i < majorScaleIntervals.length; i++) {
+                cumulativeInterval += majorScaleIntervals[i];
+                let nextIndex = (currentIndex + cumulativeInterval) % notes.length;
+                let octaveOffset = Math.floor((currentIndex + cumulativeInterval) / notes.length);
+                
+                const nextNote = notes[nextIndex] + (currentOctave + octaveOffset);
+                ascendingScale.push(nextNote);
+            }
+            
+            // 生成下行音阶（不包括基准音）
+            const descendingScale = [];
+            cumulativeInterval = 0;
+            
+            for (let i = majorScaleIntervals.length - 1; i >= 0; i--) {
+                cumulativeInterval += majorScaleIntervals[i];
+                let prevIndex = (currentIndex - cumulativeInterval + notes.length * 10) % notes.length;
+                let octaveOffset = Math.floor((currentIndex - cumulativeInterval) / notes.length);
+                
+                const prevNote = notes[prevIndex] + (currentOctave + octaveOffset);
+                descendingScale.unshift(prevNote);
+            }
+            
+            // 组合成完整音阶（下行+基准音+上行）
+            scaleNotes = [...descendingScale, baseNote, ...ascendingScale.slice(1)];
+            
+            // 生成唱名映射
+            solfegeMap = {};
+            const solfegeNames = [
+                "低音si", "低音la", "低音sol", "低音fa", "低音mi", "低音re", "低音do",
+                "do",
+                "re", "mi", "fa", "sol", "la", "si", "高音do"
+            ];
+            
+            for (let i = 0; i < scaleNotes.length; i++) {
+                solfegeMap[scaleNotes[i]] = solfegeNames[i];
+            }
+        }
+        
+        // 生成小调音阶
+        function generateMinorScale() {
+            // 小调音阶的音程模式（半音数）
+            const minorScaleIntervals = [2, 1, 2, 2, 1, 2, 2];
+            
+            // 解析基准音
+            const baseNoteName = baseNote.replace(/\d+/, '');
+            const baseOctave = parseInt(baseNote.match(/\d+/)[0]);
+            
+            // 找到基准音在音符列表中的位置
+            let currentIndex = notes.indexOf(baseNoteName);
+            let currentOctave = baseOctave;
+            
+            // 生成上行音阶
+            const ascendingScale = [baseNote];
+            let cumulativeInterval = 0;
+            
+            for (let i = 0; i < minorScaleIntervals.length; i++) {
+                cumulativeInterval += minorScaleIntervals[i];
+                let nextIndex = (currentIndex + cumulativeInterval) % notes.length;
+                let octaveOffset = Math.floor((currentIndex + cumulativeInterval) / notes.length);
+                
+                const nextNote = notes[nextIndex] + (currentOctave + octaveOffset);
+                ascendingScale.push(nextNote);
+            }
+            
+            // 生成下行音阶（不包括基准音）
+            const descendingScale = [];
+            cumulativeInterval = 0;
+            
+            for (let i = minorScaleIntervals.length - 1; i >= 0; i--) {
+                cumulativeInterval += minorScaleIntervals[i];
+                let prevIndex = (currentIndex - cumulativeInterval + notes.length * 10) % notes.length;
+                let octaveOffset = Math.floor((currentIndex - cumulativeInterval) / notes.length);
+                
+                const prevNote = notes[prevIndex] + (currentOctave + octaveOffset);
+                descendingScale.unshift(prevNote);
+            }
+            
+            // 组合成完整音阶（下行+基准音+上行）
+            scaleNotes = [...descendingScale, baseNote, ...ascendingScale.slice(1)];
+            
+            // 生成唱名映射（小调音阶从la开始）
+            solfegeMap = {};
+            const solfegeNames = [
+                "低音sol", "低音fa", "低音mi", "低音re", "低音do", "低音si", "低音la",
+                "la",
+                "si", "do", "re", "mi", "fa", "sol", "高音la"
+            ];
+            
+            for (let i = 0; i < scaleNotes.length; i++) {
+                solfegeMap[scaleNotes[i]] = solfegeNames[i];
+            }
+        }
+        
+        // 生成半音音阶
+        function generateChromaticScale() {
+            // 解析基准音
+            const baseNoteName = baseNote.replace(/\d+/, '');
+            const baseOctave = parseInt(baseNote.match(/\d+/)[0]);
+            
+            // 找到基准音在音符列表中的位置
+            let currentIndex = notes.indexOf(baseNoteName);
+            let currentOctave = baseOctave;
+            
+            // 生成上行音阶
+            const ascendingScale = [];
+            for (let i = 0; i <= 12; i++) {
+                const index = (currentIndex + i) % notes.length;
+                const octaveOffset = Math.floor((currentIndex + i) / notes.length);
+                const note = notes[index] + (currentOctave + octaveOffset);
+                ascendingScale.push(note);
+            }
+            
+            // 生成下行音阶
+            const descendingScale = [];
+            for (let i = 0; i <= 12; i++) {
+                const index = (currentIndex - i + notes.length * 10) % notes.length;
+                const octaveOffset = Math.floor((currentIndex - i) / notes.length);
+                const note = notes[index] + (currentOctave + octaveOffset);
+                descendingScale.push(note);
+            }
+            
+            // 组合成完整音阶（下行+基准音+上行）
+            scaleNotes = [...descendingScale.reverse(), ...ascendingScale.slice(1)];
+            
+            // 生成唱名映射
+            solfegeMap = {};
+            
+            // 上行唱名序列
+            const ascendingSolfege = [
+                "do", "#do", "re", "#re", "mi", "fa", "sol", "#sol", "la", "#la", "si", "#si", "高音do"
+            ];
+            
+            // 下行唱名序列
+            const descendingSolfege = [
+                "do", "低音#si", "低音si", "低音#la", "低音la", "低音#sol", "低音sol", 
+                "低音fa", "低音mi", "低音#re", "低音re", "低音#do", "低音do"
+            ];
+            
+            // 映射上行部分
+            for (let i = 0; i < ascendingScale.length; i++) {
+                solfegeMap[ascendingScale[i]] = ascendingSolfege[i];
+            }
+            
+            // 映射下行部分（不包括基准音）
+            for (let i = 1; i < descendingScale.length; i++) {
+                solfegeMap[descendingScale[i]] = descendingSolfege[i];
+            }
+        }
+        
+        // 生成音阶
+        function generateScale() {
+            if (scaleType === "major") {
+                generateMajorScale();
+            } else if (scaleType === "minor") {
+                generateMinorScale();
+            } else if (scaleType === "chromatic") {
+                generateChromaticScale();
+            }
+        }
+        
+        // 创建阶梯式唱名显示
+        function createScaleDisplay() {
+            scaleDisplay.innerHTML = '';
+            
+            // 生成新的音阶
+            generateScale();
+            
+            // 根据方向确定要显示的音阶
+            const direction = scaleDirection.value;
+            let scale, stepSolfege;
+            
+            if (scaleType === "chromatic") {
+                // 半音音阶处理
+                if (direction === 'ascending') {
+                    // 上行：从基准音开始的上行部分
+                    scale = scaleNotes.slice(13, 26);
+                    stepSolfege = scale.map(note => solfegeMap[note]);
+                } else {
+                    // 下行：从基准音开始的下行部分
+                    scale = scaleNotes.slice(0, 13);
+                    stepSolfege = scale.map(note => solfegeMap[note]);
+                }
+            } else {
+                // 大小调音阶处理
+                if (direction === 'ascending') {
+                    // 上行：从基准音开始的上行部分
+                    scale = scaleNotes.slice(7, 15);
+                    // 使用原始唱名映射
+                    stepSolfege = scale.map(note => solfegeMap[note]);
+                } else {
+                    // 下行：从基准音开始的下行部分
+                    scale = [...scaleNotes.slice(0, 8)].reverse();
+                    
+                    // 根据音阶类型使用正确的下行唱名
+                    if (scaleType === "major") {
+                        // 大调下行：do 低si 低la 低sol 低fa 低mi 低re 低do
+                        stepSolfege = [
+                            "do", "低si", "低la", "低sol", "低fa", "低mi", "低re", "低do"
+                        ];
+                    } else {
+                        // 小调下行：la 低sol 低fa 低mi 低re 低do 低si 低la
+                        stepSolfege = [
+                            "la", "低sol", "低fa", "低mi", "低re", "低do", "低si", "低la"
+                        ];
+                    }
+                }
+            }
+            
+            // 创建步骤元素
+            scale.forEach((note, index) => {
+                const step = document.createElement('div');
+                step.className = 'step';
+                step.dataset.note = note;
+                step.style.alignSelf = 'flex-end'; // 默认从底部开始
+                
+                const label = document.createElement('div');
+                label.className = 'step-label';
+                label.textContent = stepSolfege[index];
+                step.appendChild(label);
+                
+                const line = document.createElement('div');
+                line.className = 'step-line';
+                step.appendChild(line);
+                
+                // 设置阶梯位置
+                if (direction === 'ascending') {
+                    // 上行：从左下到右上（上坡）
+                    // 位置从底部开始，逐渐向上
+                    step.style.marginBottom = `${index * (100 / (scale.length - 1))}px`;
+                } else {
+                    // 下行：从左上到右下（下坡）
+                    // 位置从顶部开始，逐渐向下
+                    step.style.alignSelf = 'flex-start';
+                    step.style.marginTop = `${index * (100 / (scale.length - 1))}px`;
+                }
+                
+                scaleDisplay.appendChild(step);
+            });
+        }
+        
+        // 播放音阶
+        async function playScale() {
+            const direction = scaleDirection.value;
+            let scale;
+            
+            if (scaleType === "chromatic") {
+                // 半音音阶处理
+                if (direction === 'ascending') {
+                    // 上行：从基准音开始的上行部分
+                    scale = scaleNotes.slice(13, 26);
+                } else {
+                    // 下行：从基准音开始的下行部分
+                    scale = scaleNotes.slice(0, 13);
+                }
+            } else {
+                // 大小调音阶处理
+                if (direction === 'ascending') {
+                    // 上行：从基准音开始的上行部分
+                    scale = scaleNotes.slice(7, 15);
+                } else {
+                    // 下行：从基准音开始的下行部分
+                    scale = [...scaleNotes.slice(0, 8)].reverse();
+                }
+            }
+            
+            // 禁用播放按钮
+            playScaleBtn.disabled = true;
+            playScaleBtn.textContent = "播放中...";
+            
+            // 重置所有步骤状态
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+                step.classList.remove('visible');
+            });
+            
+            try {
+                // 确保音频上下文已启动
+                if (Tone.context.state !== 'running') {
+                    await Tone.start();
+                }
+                
+                // 依次播放每个音符
+                for (let i = 0; i < scale.length; i++) {
+                    const note = scale[i];
+                    const step = document.querySelector(`.step[data-note="${note}"]`);
+                    const pianoKey = document.getElementById(`key-${note}`);
+                    
+                    // 高亮当前步骤
+                    if (step) {
+                        step.classList.add('visible');
+                        step.classList.add('active');
+                    }
+                    
+                    // 高亮钢琴键
+                    if (pianoKey) {
+                        pianoKey.classList.add('playing');
+                    }
+                    
+                    // 播放音符
+                    sampler.triggerAttackRelease(note, 0.4);
+                    
+                    // 等待音符播放完成
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                    // 移除高亮
+                    if (step) {
+                        step.classList.remove('active');
+                    }
+                    if (pianoKey) {
+                        pianoKey.classList.remove('playing');
+                    }
+                }
+            } catch (error) {
+                console.error("播放错误:", error);
+            } finally {
+                // 启用播放按钮
+                playScaleBtn.disabled = false;
+                playScaleBtn.textContent = "播放音阶";
+            }
+        }
+        
+        // 滚动到指定音符的位置
+        function scrollToNote(note) {
+            const pianoContainer = document.querySelector('.piano-container');
+            const key = document.getElementById(`key-${note}`);
+            if (key) {
+                const containerWidth = pianoContainer.clientWidth;
+                const keyPosition = key.offsetLeft - (containerWidth / 2) + (key.clientWidth / 2);
+                pianoContainer.scrollTo({
+                    left: keyPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        function setupScrollArrows() {
+            const pianoContainer = document.querySelector('.piano-container');
+            const leftArrow = document.querySelector('.left-arrow');
+            const rightArrow = document.querySelector('.right-arrow');
+            
+            // 设置滚动步长（每次滚动一个八度）
+            const scrollStep = 200; // 根据您的钢琴键宽度调整
+            
+            leftArrow.addEventListener('click', () => {
+                pianoContainer.scrollBy({
+                    left: -scrollStep,
+                    behavior: 'smooth'
+                });
+            });
+            
+            rightArrow.addEventListener('click', () => {
+                pianoContainer.scrollBy({
+                    left: scrollStep,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 在移动设备上添加触摸滑动支持
+            let startX = 0;
+            let scrollLeft = 0;
+            
+            pianoContainer.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].pageX;
+                scrollLeft = pianoContainer.scrollLeft;
+            });
+            
+            pianoContainer.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const x = e.touches[0].pageX;
+                const walk = (x - startX) * 2; // 增加滑动灵敏度
+                pianoContainer.scrollLeft = scrollLeft - walk;
+            });
+        }
+        
+        // 事件监听
+        playScaleBtn.addEventListener('click', playScale);
+        scaleDirection.addEventListener('change', createScaleDisplay);
+        baseNoteSelect.addEventListener('change', function() {
+            baseNote = this.value;
+            createScaleDisplay();
+            scrollToNote(baseNote);
+        });
+        
+        scaleTypeSelect.addEventListener('change', function() {
+            scaleType = this.value;
+            createScaleDisplay();
+        });
+        
+        // 初始化应用
+        init();
+    </script>
+</body>
+</html>
