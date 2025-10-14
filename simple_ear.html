@@ -719,8 +719,8 @@
             let currentIndex = notes.indexOf(baseNoteName);
             let currentOctave = baseOctave;
             
-            // 生成上行音阶
-            const ascendingScale = [];
+            // 生成上行音阶（13个音符：基准音到高八度基准音）
+            const ascendingScale = [baseNote];
             for (let i = 1; i <= 12; i++) {
                 const index = (currentIndex + i) % notes.length;
                 const octaveOffset = Math.floor((currentIndex + i) / notes.length);
@@ -728,8 +728,8 @@
                 ascendingScale.push(note);
             }
             
-            // 生成下行音阶
-            const descendingScale = [];
+            // 生成下行音阶（13个音符：基准音到低八度基准音）
+            const descendingScale = [baseNote];
             for (let i = 1; i <= 12; i++) {
                 const index = (currentIndex - i + notes.length * 10) % notes.length;
                 const octaveOffset = Math.floor((currentIndex - i) / notes.length);
@@ -737,15 +737,15 @@
                 descendingScale.push(note);
             }
             
-            // 组合成完整音阶（下行+基准音+上行）
-            scaleNotes = [...descendingScale.reverse(), ...ascendingScale.slice(1)];
+            // 组合成完整音阶（下行+上行）
+            scaleNotes = [...descendingScale.reverse(), ...ascendingScale];
             
             // 生成唱名映射
             solfegeMap = {};
             
             // 上行唱名序列
             const ascendingSolfege = [
-                "do", "#do", "re", "#re", "mi", "fa", "sol", "#sol", "la", "#la", "si", "#si", "高音do"
+                "do", "#do", "re", "#re", "mi", "fa", "#fa", "sol", "#sol", "la", "#la", "si", "高音do"
             ];
             
             // 下行唱名序列
@@ -791,17 +791,12 @@
                 // 半音音阶处理
                 if (direction === 'ascending') {
                     // 上行：从基准音开始的上行部分
-                    scale = scaleNotes.slice(13, 26);
-                    stepSolfege = [
-                        "do", "#do", "re", "#re", "mi", "fa", "sol", "#sol", "la", "#la", "si", "#si", "高音do"
-                    ];
+                    scale = scaleNotes.slice(13); // 取后半部分（13个音符）
+                    stepSolfege = scale.map(note => solfegeMap[note]);
                 } else {
                     // 下行：从基准音开始的下行部分
-                    scale = scaleNotes.slice(0, 13);
-                    stepSolfege = [
-                        "do", "低音#si", "低音si", "低音#la", "低音la", "低音#sol", "低音sol", 
-                        "低音fa", "低音mi", "低音#re", "低音re", "低音#do", "低音do"
-                    ];
+                    scale = scaleNotes.slice(0, 13); // 取前半部分（13个音符）
+                    stepSolfege = scale.map(note => solfegeMap[note]);
                 }
             } else {
                 // 大小调音阶处理
@@ -870,10 +865,10 @@
                 // 半音音阶处理
                 if (direction === 'ascending') {
                     // 上行：从基准音开始的上行部分
-                    scale = scaleNotes.slice(13, 26);
+                    scale = scaleNotes.slice(13); // 取后半部分（13个音符）
                 } else {
                     // 下行：从基准音开始的下行部分
-                    scale = scaleNotes.slice(0, 13);
+                    scale = scaleNotes.slice(0, 13); // 取前半部分（13个音符）
                 }
             } else {
                 // 大小调音阶处理
