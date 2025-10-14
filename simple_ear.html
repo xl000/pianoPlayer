@@ -792,11 +792,16 @@
                 if (direction === 'ascending') {
                     // 上行：从基准音开始的上行部分
                     scale = scaleNotes.slice(13, 26);
-                    stepSolfege = scale.map(note => solfegeMap[note]);
+                    stepSolfege = [
+                        "do", "#do", "re", "#re", "mi", "fa", "sol", "#sol", "la", "#la", "si", "#si", "高音do"
+                    ];
                 } else {
                     // 下行：从基准音开始的下行部分
                     scale = scaleNotes.slice(0, 13);
-                    stepSolfege = scale.map(note => solfegeMap[note]);
+                    stepSolfege = [
+                        "do", "低音#si", "低音si", "低音#la", "低音la", "低音#sol", "低音sol", 
+                        "低音fa", "低音mi", "低音#re", "低音re", "低音#do", "低音do"
+                    ];
                 }
             } else {
                 // 大小调音阶处理
