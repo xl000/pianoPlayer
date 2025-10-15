@@ -841,6 +841,9 @@
                 "below"   // do (低八度)
             ];
             
+            // 重置唱名映射
+            solfegeMap = {};
+            
             // 映射上行部分
             for (let i = 0; i < ascendingScale.length; i++) {
                 solfegeMap[ascendingScale[i]] = {
@@ -849,19 +852,21 @@
                 };
             }
             
-            // 映射下行部分 - 确保基准音不被覆盖
+            // 映射下行部分 - 跳过基准音，避免覆盖上行部分的映射
             for (let i = 0; i < descendingScale.length; i++) {
-                // 对于下行部分的所有音符都进行映射
-                solfegeMap[descendingScale[i]] = {
-                    name: descendingSolfege[i],
-                    dot: descendingDotPositions[i]
-                };
+                if (descendingScale[i] !== baseNote) {
+                    solfegeMap[descendingScale[i]] = {
+                        name: descendingSolfege[i],
+                        dot: descendingDotPositions[i]
+                    };
+                }
             }
 
-             // 特别处理基准音的点标记
-            solfegeMap[baseNote] = {
-                name: "do",
-                dot: "none"
+            // 特别处理下行部分的最后一个基准音
+            const lastDescendingNote = descendingScale[descendingScale.length - 1];
+            solfegeMap[lastDescendingNote] = {
+                name: descendingSolfege[descendingSolfege.length - 1],
+                dot: "below"
             };
 
             // 调试输出：打印所有音符的点标记情况
