@@ -792,7 +792,7 @@
             }
             
             // 组合成完整音阶（下行+上行）
-            scaleNotes = [...descendingScale.reverse(), ...ascendingScale];
+            scaleNotes = [...descendingScale, ...ascendingScale];
             
             // 生成唱名映射
             solfegeMap = {};
