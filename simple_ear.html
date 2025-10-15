@@ -792,7 +792,7 @@
             }
             
             // 组合成完整音阶（下行+上行）
-            scaleNotes = [...descendingScale.reverse().slice(1), ...ascendingScale];
+            scaleNotes = [...descendingScale.reverse(), ...ascendingScale];
             
             // 生成唱名映射
             solfegeMap = {};
@@ -856,8 +856,31 @@
                     dot: descendingDotPositions[i]
                 };
             }
+
+            // 调试输出：打印所有音符的点标记情况
+            console.log("===== 半音音阶点标记调试信息 =====");
+            console.log("基准音:", baseNote);
+            console.log("完整音阶音符:", scaleNotes);
+            
+            // 打印上行部分点标记
+            console.log("\n上行部分:");
+            for (let i = 0; i < ascendingScale.length; i++) {
+                const note = ascendingScale[i];
+                console.log(`音符: ${note}, 唱名: ${ascendingSolfege[i]}, 点标记: ${ascendingDotPositions[i]}`);
+            }
+            
+            // 打印下行部分点标记
+            console.log("\n下行部分:");
+            for (let i = 0; i < descendingScale.length; i++) {
+                const note = descendingScale[i];
+                console.log(`音符: ${note}, 唱名: ${descendingSolfege[i]}, 点标记: ${descendingDotPositions[i]}`);
+            }
+            
+            // 特别检查基准音的点标记
+            console.log("\n基准音点标记检查:");
+            console.log(`基准音 ${baseNote} 的点标记: ${solfegeMap[baseNote].dot}`);
         }
-        
+
         // 生成音阶
         function generateScale() {
             if (scaleType === "major") {
