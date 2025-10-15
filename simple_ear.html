@@ -6,6 +6,7 @@
     <title>钢琴音阶训练器</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
+        /* 样式保持不变 */
         * {
             margin: 0;
             padding: 0;
@@ -709,7 +710,7 @@
             }
         }
         
-        // 生成半音音阶
+        // 生成半音音阶（已修复）
         function generateChromaticScale() {
             // 解析基准音
             const baseNoteName = baseNote.replace(/\d+/, '');
@@ -720,8 +721,8 @@
             let currentOctave = baseOctave;
             
             // 生成上行音阶（13个音符：基准音到高八度基准音）
-            const ascendingScale = [baseNote];
-            for (let i = 1; i <= 12; i++) {
+            const ascendingScale = [];
+            for (let i = 0; i <= 12; i++) {
                 const index = (currentIndex + i) % notes.length;
                 const octaveOffset = Math.floor((currentIndex + i) / notes.length);
                 const note = notes[index] + (currentOctave + octaveOffset);
@@ -729,8 +730,8 @@
             }
             
             // 生成下行音阶（13个音符：基准音到低八度基准音）
-            const descendingScale = [baseNote];
-            for (let i = 1; i <= 12; i++) {
+            const descendingScale = [];
+            for (let i = 0; i <= 12; i++) {
                 const index = (currentIndex - i + notes.length * 10) % notes.length;
                 const octaveOffset = Math.floor((currentIndex - i) / notes.length);
                 const note = notes[index] + (currentOctave + octaveOffset);
@@ -738,9 +739,9 @@
             }
             
             // 组合成完整音阶（下行+上行）
-            scaleNotes = [...descendingScale.reverse(), ...ascendingScale];
+            scaleNotes = [...descendingScale, ...ascendingScale];
             
-            // 生成唱名映射
+            // 生成唱名映射（已修复）
             solfegeMap = {};
             
             // 上行唱名序列
@@ -748,10 +749,10 @@
                 "do", "#do", "re", "#re", "mi", "fa", "#fa", "sol", "#sol", "la", "#la", "si", "高音do"
             ];
             
-            // 下行唱名序列
+            // 下行唱名序列（已修复）
             const descendingSolfege = [
-                "do", "低音#si", "低音si", "低音#la", "低音la", "低音#sol", "低音sol", 
-                "低音fa", "低音mi", "低音#re", "低音re", "低音#do", "低音do"
+                "do", "低音si", "低音#la", "低音la", "低音#sol", "低音sol", 
+                "低音#fa", "低音fa", "低音mi", "低音#re", "低音re", "低音#do", "低音do"
             ];
             
             // 映射上行部分
@@ -776,7 +777,7 @@
             }
         }
         
-        // 创建阶梯式唱名显示
+        // 创建阶梯式唱名显示（已修复半音音阶显示）
         function createScaleDisplay() {
             scaleDisplay.innerHTML = '';
             
@@ -788,7 +789,7 @@
             let scale, stepSolfege;
             
             if (scaleType === "chromatic") {
-                // 半音音阶处理
+                // 半音音阶处理（已修复）
                 if (direction === 'ascending') {
                     // 上行：从基准音开始的上行部分
                     scale = scaleNotes.slice(13); // 取后半部分（13个音符）
@@ -856,13 +857,13 @@
             });
         }
         
-        // 播放音阶
+        // 播放音阶（已修复半音音阶播放）
         async function playScale() {
             const direction = scaleDirection.value;
             let scale;
             
             if (scaleType === "chromatic") {
-                // 半音音阶处理
+                // 半音音阶处理（已修复）
                 if (direction === 'ascending') {
                     // 上行：从基准音开始的上行部分
                     scale = scaleNotes.slice(13); // 取后半部分（13个音符）
