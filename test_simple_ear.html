@@ -860,6 +860,12 @@
                 }
             }
 
+             // 特别处理基准音的点标记
+            solfegeMap[baseNote] = {
+                name: "do",
+                dot: "none"
+            };
+
             // 调试输出：打印所有音符的点标记情况
             console.log("===== 半音音阶点标记调试信息 =====");
             console.log("基准音:", baseNote);
