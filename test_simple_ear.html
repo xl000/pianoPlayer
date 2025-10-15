@@ -768,114 +768,62 @@
             // 解析基准音
             const baseNoteName = baseNote.replace(/\d+/, '');
             const baseOctave = parseInt(baseNote.match(/\d+/)[0]);
-            
-            // 找到基准音在音符列表中的位置
-            let currentIndex = notes.indexOf(baseNoteName);
-            let currentOctave = baseOctave;
-            
-            // 生成上行音阶（13个音符：基准音到高八度基准音）
-            const ascendingScale = [baseNote];
-            for (let i = 1; i <= 12; i++) {
-                const index = (currentIndex + i) % notes.length;
-                const octaveOffset = Math.floor((currentIndex + i) / notes.length);
-                const note = notes[index] + (currentOctave + octaveOffset);
-                ascendingScale.push(note);
-            }
-            
-            // 生成下行音阶（13个音符：基准音到低八度基准音）
-            const descendingScale = [baseNote];
-            for (let i = 1; i <= 12; i++) {
-                const index = (currentIndex - i + notes.length * 10) % notes.length;
-                const octaveOffset = Math.floor((currentIndex - i) / notes.length);
-                const note = notes[index] + (currentOctave + octaveOffset);
-                descendingScale.push(note);
-            }
-            
-            // 组合成完整音阶（下行+上行）
-            scaleNotes = [...descendingScale, ...ascendingScale];
-            
-            // 生成唱名映射
-            solfegeMap = {};
-            
-            // 上行唱名序列
-            const ascendingSolfege = [
-                "do", "#do", "re", "#re", "mi", "fa", "#fa", "sol", "#sol", "la", "#la", "si", "do"
-            ];
-            
-            // 下行唱名序列
-            const descendingSolfege = [
-                "do", "#si", "si", "#la", "la", "#sol", "sol", 
-                "fa", "mi", "#re", "re", "#do", "do"
-            ];
-            
-            // 标记点位置 - 修复：上行第一个do没有点标记
-            const ascendingDotPositions = [
-                "none",   // do (基准音) - 没有点标记 (修复点)
-                "none",   // #do
-                "none",   // re
-                "none",   // #re
-                "none",   // mi
-                "none",   // fa
-                "none",   // #fa
-                "none",   // sol
-                "none",   // #sol
-                "none",   // la
-                "none",   // #la
-                "none",   // si
-                "above"   // do (高八度)
-            ];
-            
-            const descendingDotPositions = [
-                "none",   // do (基准音) - 没有点标记
-                "below",  // #si
-                "below",  // si
-                "below",  // #la
-                "below",  // la
-                "below",  // #sol
-                "below",  // sol 
-                "below",  // fa
-                "below",  // mi
-                "below",  // #re
-                "below",  // re
-                "below",  // #do
-                "below"   // do (低八度)
-            ];
-            
-            // 使用类似大小调音阶的映射方式
-            const solfegeNames = [
-                ...descendingSolfege, 
-                ...ascendingSolfege.slice(1) // 跳过重复的基准音
-            ];
-            
-            const dotPositions = [
-                ...descendingDotPositions,
-                ...ascendingDotPositions.slice(1) // 跳过重复的基准音
-            ];
-            
-            // 映射所有音符
-            for (let i = 0; i < scaleNotes.length; i++) {
-                solfegeMap[scaleNotes[i]] = {
-                    name: solfegeNames[i],
-                    dot: dotPositions[i]
-                };
-            }
 
-            // 调试输出：打印所有音符的点标记情况
-            console.log("===== 半音音阶点标记调试信息 =====");
-            console.log("基准音:", baseNote);
-            console.log("完整音阶音符:", scaleNotes);
-            
-            // 打印点标记
-            console.log("\n点标记:");
-            for (let i = 0; i < scaleNotes.length; i++) {
-                const note = scaleNotes[i];
-                console.log(`音符: ${note}, 唱名: ${solfegeNames[i]}, 点标记: ${dotPositions[i]}`);
+            const currentIndex = notes.indexOf(baseNoteName);
+            let currentOctave = baseOctave;
+
+            scaleNotes = [];
+            solfegeMap = {};
+
+            const direction = scaleDirection.value;
+
+            if (direction === 'ascending') {
+                // 上行半音音阶（13个音）
+                for (let i = 0; i <= 12; i++) {
+                    const index = (currentIndex + i) % notes.length;
+                    const octaveOffset = Math.floor((currentIndex + i) / notes.length);
+                    const note = notes[index] + (currentOctave + octaveOffset);
+                    scaleNotes.push(note);
+                }
+
+                // 唱名顺序
+                const solfegeNames = [
+                    "do", "#do", "re", "#re", "mi", "fa", "#fa",
+                    "sol", "#sol", "la", "#la", "si", "do"
+                ];
+
+                // 点标记逻辑
+                for (let i = 0; i < scaleNotes.length; i++) {
+                    solfegeMap[scaleNotes[i]] = {
+                        name: solfegeNames[i],
+                        dot: i === 12 ? "above" : "none" // 仅最后一个高音do加上方点
+                    };
+                }
+            } else {
+                // 下行半音音阶（13个音）
+                for (let i = 0; i <= 12; i++) {
+                    const index = (currentIndex - i + notes.length * 10) % notes.length;
+                    const octaveOffset = Math.floor((currentIndex - i) / notes.length);
+                    const note = notes[index] + (currentOctave + octaveOffset);
+                    scaleNotes.push(note);
+                }
+
+                // 唱名顺序（对应降序）
+                const solfegeNames = [
+                    "do", "低音si", "低音#la", "低音la", "低音#sol", "低音sol",
+                    "低音#fa", "低音fa", "低音mi", "低音#re", "低音re",
+                    "低音#do", "低音do"
+                ];
+
+                for (let i = 0; i < scaleNotes.length; i++) {
+                    solfegeMap[scaleNotes[i]] = {
+                        name: solfegeNames[i],
+                        dot: i === 0 ? "none" : "below" // 除第一个音外，其余低音区都加下方点
+                    };
+                }
             }
-                
-            // 特别检查基准音的点标记
-            console.log("\n基准音点标记检查:");
-            console.log(`基准音 ${baseNote} 的点标记: ${solfegeMap[baseNote].dot}`);
         }
+
         
         // 生成音阶
         function generateScale() {
