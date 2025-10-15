@@ -849,12 +849,15 @@
                 };
             }
             
-            // 映射下行部分
+            // 映射下行部分 - 确保基准音不被覆盖
             for (let i = 0; i < descendingScale.length; i++) {
-                solfegeMap[descendingScale[i]] = {
-                    name: descendingSolfege[i],
-                    dot: descendingDotPositions[i]
-                };
+                // 跳过基准音，避免覆盖上行部分的映射
+                if (descendingScale[i] !== baseNote) {
+                    solfegeMap[descendingScale[i]] = {
+                        name: descendingSolfege[i],
+                        dot: descendingDotPositions[i]
+                    };
+                }
             }
 
             // 调试输出：打印所有音符的点标记情况
