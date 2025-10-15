@@ -1006,6 +1006,16 @@
                     // 下行：从基准音开始的下行部分
                     scale = scaleNotes.slice(0, 13); // 取前半部分（13个音符）
                 }
+                // 调试输出：打印播放的音阶和点标记
+                console.log("\n===== 播放半音音阶 =====");
+                console.log("方向:", direction);
+                console.log("播放的音阶:", scale);
+                
+                for (let i = 0; i < scale.length; i++) {
+                    const note = scale[i];
+                    const solfege = solfegeMap[note];
+                    console.log(`音符 ${i+1}: ${note}, 唱名: ${solfege.name}, 点标记: ${solfege.dot}`);
+                }
             } else {
                 // 大小调音阶处理
                 if (direction === 'ascending') {
