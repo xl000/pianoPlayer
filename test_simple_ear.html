@@ -763,7 +763,7 @@
             }
         }
         
-        // 生成半音音阶
+        // 生成半音音阶 - 修复唱名映射问题
         function generateChromaticScale() {
             // 解析基准音
             const baseNoteName = baseNote.replace(/\d+/, '');
@@ -794,7 +794,7 @@
             // 组合成完整音阶（下行+上行）
             scaleNotes = [...descendingScale, ...ascendingScale];
             
-            // 生成唱名映射
+            // 生成唱名映射 - 修复：使用正确的唱名序列
             solfegeMap = {};
             
             // 上行唱名序列
@@ -808,7 +808,7 @@
                 "fa", "mi", "#re", "re", "#do", "do"
             ];
             
-            // 标记点位置 - 修复：上行第一个do没有点标记
+            // 标记点位置 - 修复：上行第一个do没有点标记，最后一个do有上方点
             const ascendingDotPositions = [
                 "none",   // do (基准音) - 没有点标记
                 "none",   // #do
@@ -841,15 +841,15 @@
                 "below"   // do (低八度)
             ];
             
-            // 使用类似大小调音阶的映射方式
+            // 使用完整的26个音符映射
             const solfegeNames = [
                 ...descendingSolfege, 
-                ...ascendingSolfege.slice(1) // 跳过重复的基准音
+                ...ascendingSolfege
             ];
             
             const dotPositions = [
                 ...descendingDotPositions,
-                ...ascendingDotPositions.slice(1) // 跳过重复的基准音
+                ...ascendingDotPositions
             ];
             
             // 映射所有音符
