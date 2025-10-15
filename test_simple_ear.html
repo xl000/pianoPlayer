@@ -862,12 +862,20 @@
                 }
             }
 
-            // 特别处理下行部分的最后一个基准音
+            // 特别处理下行部分的最后一个音符
             const lastDescendingNote = descendingScale[descendingScale.length - 1];
-            solfegeMap[lastDescendingNote] = {
-                name: descendingSolfege[descendingSolfege.length - 1],
-                dot: "below"
-            };
+            // 如果最后一个音符是基准音，则点标记为"none"，否则为"below"
+            if (lastDescendingNote === baseNote) {
+                solfegeMap[lastDescendingNote] = {
+                    name: descendingSolfege[descendingSolfege.length - 1],
+                    dot: "none"
+                };
+            } else {
+                solfegeMap[lastDescendingNote] = {
+                    name: descendingSolfege[descendingSolfege.length - 1],
+                    dot: "below"
+                };
+            }
 
             // 调试输出：打印所有音符的点标记情况
             console.log("===== 半音音阶点标记调试信息 =====");
