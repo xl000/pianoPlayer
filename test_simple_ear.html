@@ -808,15 +808,37 @@
                 "fa", "mi", "#re", "re", "#do", "do"
             ];
             
-            // 标记点位置
+            // 标记点位置 - 修复：上行第一个do没有点标记
             const ascendingDotPositions = [
-                "none", "none", "none", "none", "none", "none", "none",
-                "none", "none", "none", "none", "none", "above"
+                "none",   // do (基准音) - 没有点标记
+                "none",   // #do
+                "none",   // re
+                "none",   // #re
+                "none",   // mi
+                "none",   // fa
+                "none",   // #fa
+                "none",   // sol
+                "none",   // #sol
+                "none",   // la
+                "none",   // #la
+                "none",   // si
+                "above"   // do (高八度)
             ];
             
             const descendingDotPositions = [
-                "none", "below", "below", "below", "below", "below", "below",
-                "below", "below", "below", "below", "below", "below"
+                "none",   // do (基准音) - 没有点标记
+                "below",  // #si
+                "below",  // si
+                "below",  // #la
+                "below",  // la
+                "below",  // #sol
+                "below",  // sol 
+                "below",  // fa
+                "below",  // mi
+                "below",  // #re
+                "below",  // re
+                "below",  // #do
+                "below"   // do (低八度)
             ];
             
             // 映射上行部分
