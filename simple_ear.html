@@ -763,7 +763,7 @@
             }
         }
         
-        // 生成半音音阶
+        // 生成半音音阶 - 修复唱名映射问题
         function generateChromaticScale() {
             // 解析基准音
             const baseNoteName = baseNote.replace(/\d+/, '');
@@ -792,9 +792,9 @@
             }
             
             // 组合成完整音阶（下行+上行）
-            scaleNotes = [...descendingScale.reverse(), ...ascendingScale];
+            scaleNotes = [...descendingScale, ...ascendingScale];
             
-            // 生成唱名映射
+            // 生成唱名映射 - 修复：使用正确的唱名序列
             solfegeMap = {};
             
             // 上行唱名序列
@@ -804,13 +804,13 @@
             
             // 下行唱名序列
             const descendingSolfege = [
-                "do", "#si", "si", "#la", "la", "#sol", "sol", 
+                "do", "si", "#la", "la", "#sol", "sol", "#fa", 
                 "fa", "mi", "#re", "re", "#do", "do"
             ];
             
-            // 标记点位置 - 修复：上行第一个do没有点标记
+            // 标记点位置 - 修复：上行第一个do没有点标记，最后一个do有上方点
             const ascendingDotPositions = [
-                "none",   // do (基准音) - 没有点标记 (修复点)
+                "none",   // do (基准音) - 没有点标记
                 "none",   // #do
                 "none",   // re
                 "none",   // #re
@@ -827,12 +827,12 @@
             
             const descendingDotPositions = [
                 "none",   // do (基准音) - 没有点标记
-                "below",  // #si
                 "below",  // si
                 "below",  // #la
                 "below",  // la
                 "below",  // #sol
-                "below",  // sol 
+                "below",  // sol
+                "below",  // #fa 
                 "below",  // fa
                 "below",  // mi
                 "below",  // #re
@@ -841,46 +841,26 @@
                 "below"   // do (低八度)
             ];
             
-            // 映射上行部分
-            for (let i = 0; i < ascendingScale.length; i++) {
-                solfegeMap[ascendingScale[i]] = {
-                    name: ascendingSolfege[i],
-                    dot: ascendingDotPositions[i]
+            // 使用完整的26个音符映射
+            const solfegeNames = [
+                ...descendingSolfege, 
+                ...ascendingSolfege
+            ];
+            
+            const dotPositions = [
+                ...descendingDotPositions,
+                ...ascendingDotPositions
+            ];
+            
+            // 映射所有音符
+            for (let i = 0; i < scaleNotes.length; i++) {
+                solfegeMap[scaleNotes[i]] = {
+                    name: solfegeNames[i],
+                    dot: dotPositions[i]
                 };
             }
-            
-            // 映射下行部分
-            for (let i = 0; i < descendingScale.length; i++) {
-                solfegeMap[descendingScale[i]] = {
-                    name: descendingSolfege[i],
-                    dot: descendingDotPositions[i]
-                };
-            }
-
-            // 调试输出：打印所有音符的点标记情况
-            console.log("===== 半音音阶点标记调试信息 =====");
-            console.log("基准音:", baseNote);
-            console.log("完整音阶音符:", scaleNotes);
-            
-            // 打印上行部分点标记
-            console.log("\n上行部分:");
-            for (let i = 0; i < ascendingScale.length; i++) {
-                const note = ascendingScale[i];
-                console.log(`音符: ${note}, 唱名: ${ascendingSolfege[i]}, 点标记: ${ascendingDotPositions[i]}`);
-            }
-            
-            // 打印下行部分点标记
-            console.log("\n下行部分:");
-            for (let i = 0; i < descendingScale.length; i++) {
-                const note = descendingScale[i];
-                console.log(`音符: ${note}, 唱名: ${descendingSolfege[i]}, 点标记: ${descendingDotPositions[i]}`);
-            }
-            
-            // 特别检查基准音的点标记
-            console.log("\n基准音点标记检查:");
-            console.log(`基准音 ${baseNote} 的点标记: ${solfegeMap[baseNote].dot}`);
         }
-
+        
         // 生成音阶
         function generateScale() {
             if (scaleType === "major") {
