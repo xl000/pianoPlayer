@@ -277,6 +277,7 @@
             transition: all 0.3s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             z-index: 2;
+            position: relative;
         }
 
         .step.active .step-label {
@@ -293,6 +294,34 @@
             bottom: 0;
             left: 0;
             right: 0;
+        }
+
+        /* 点标记样式 */
+        .dot-above {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .dot-below {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .step.active .dot-above,
+        .step.active .dot-below {
+            background: #1a237e;
         }
 
         /* 动画效果 */
@@ -367,6 +396,11 @@
             
             .scale-display {
                 height: 170px;
+            }
+            
+            .dot-above, .dot-below {
+                width: 4px;
+                height: 4px;
             }
         }
 
@@ -641,16 +675,26 @@
             // 组合成完整音阶（下行+基准音+上行）
             scaleNotes = [...descendingScale, baseNote, ...ascendingScale.slice(1)];
             
-            // 生成唱名映射
+            // 生成唱名映射（使用点表示高低八度）
             solfegeMap = {};
             const solfegeNames = [
-                "低音si", "低音la", "低音sol", "低音fa", "低音mi", "低音re", "低音do",
+                "si", "la", "sol", "fa", "mi", "re", "do",
                 "do",
-                "re", "mi", "fa", "sol", "la", "si", "高音do"
+                "re", "mi", "fa", "sol", "la", "si", "do"
+            ];
+            
+            // 标记哪些音符需要点标记（低八度：下方点，高八度：上方点）
+            const dotPositions = [
+                "below", "below", "below", "below", "below", "below", "below",
+                "none",
+                "none", "none", "none", "none", "none", "none", "above"
             ];
             
             for (let i = 0; i < scaleNotes.length; i++) {
-                solfegeMap[scaleNotes[i]] = solfegeNames[i];
+                solfegeMap[scaleNotes[i]] = {
+                    name: solfegeNames[i],
+                    dot: dotPositions[i]
+                };
             }
         }
         
@@ -699,13 +743,23 @@
             // 生成唱名映射（小调音阶从la开始）
             solfegeMap = {};
             const solfegeNames = [
-                "低音sol", "低音fa", "低音mi", "低音re", "低音do", "低音si", "低音la",
+                "sol", "fa", "mi", "re", "do", "si", "la",
                 "la",
-                "si", "do", "re", "mi", "fa", "sol", "高音la"
+                "si", "do", "re", "mi", "fa", "sol", "la"
+            ];
+            
+            // 标记哪些音符需要点标记（低八度：下方点，高八度：上方点）
+            const dotPositions = [
+                "below", "below", "below", "below", "below", "below", "below",
+                "none",
+                "none", "none", "none", "none", "none", "none", "above"
             ];
             
             for (let i = 0; i < scaleNotes.length; i++) {
-                solfegeMap[scaleNotes[i]] = solfegeNames[i];
+                solfegeMap[scaleNotes[i]] = {
+                    name: solfegeNames[i],
+                    dot: dotPositions[i]
+                };
             }
         }
         
@@ -745,23 +799,62 @@
             
             // 上行唱名序列
             const ascendingSolfege = [
-                "do", "#do", "re", "#re", "mi", "fa", "#fa", "sol", "#sol", "la", "#la", "si", "高音do"
+                "do", "#do", "re", "#re", "mi", "fa", "#fa", "sol", "#sol", "la", "#la", "si", "do"
             ];
             
             // 下行唱名序列
             const descendingSolfege = [
-                "do", "低音#si", "低音si", "低音#la", "低音la", "低音#sol", "低音sol", 
-                "低音fa", "低音mi", "低音#re", "低音re", "低音#do", "低音do"
+                "do", "#si", "si", "#la", "la", "#sol", "sol", 
+                "fa", "mi", "#re", "re", "#do", "do"
+            ];
+            
+            // 标记点位置 - 修复：上行第一个do没有点标记
+            const ascendingDotPositions = [
+                "none",   // do (基准音) - 没有点标记 (修复点)
+                "none",   // #do
+                "none",   // re
+                "none",   // #re
+                "none",   // mi
+                "none",   // fa
+                "none",   // #fa
+                "none",   // sol
+                "none",   // #sol
+                "none",   // la
+                "none",   // #la
+                "none",   // si
+                "above"   // do (高八度)
+            ];
+            
+            const descendingDotPositions = [
+                "none",   // do (基准音) - 没有点标记
+                "below",  // #si
+                "below",  // si
+                "below",  // #la
+                "below",  // la
+                "below",  // #sol
+                "below",  // sol 
+                "below",  // fa
+                "below",  // mi
+                "below",  // #re
+                "below",  // re
+                "below",  // #do
+                "below"   // do (低八度)
             ];
             
             // 映射上行部分
             for (let i = 0; i < ascendingScale.length; i++) {
-                solfegeMap[ascendingScale[i]] = ascendingSolfege[i];
+                solfegeMap[ascendingScale[i]] = {
+                    name: ascendingSolfege[i],
+                    dot: ascendingDotPositions[i]
+                };
             }
             
             // 映射下行部分
             for (let i = 0; i < descendingScale.length; i++) {
-                solfegeMap[descendingScale[i]] = descendingSolfege[i];
+                solfegeMap[descendingScale[i]] = {
+                    name: descendingSolfege[i],
+                    dot: descendingDotPositions[i]
+                };
             }
         }
         
@@ -785,18 +878,20 @@
             
             // 根据方向确定要显示的音阶
             const direction = scaleDirection.value;
-            let scale, stepSolfege;
+            let scale, stepSolfege, stepDotPositions;
             
             if (scaleType === "chromatic") {
                 // 半音音阶处理
                 if (direction === 'ascending') {
                     // 上行：从基准音开始的上行部分
                     scale = scaleNotes.slice(13); // 取后半部分（13个音符）
-                    stepSolfege = scale.map(note => solfegeMap[note]);
+                    stepSolfege = scale.map(note => solfegeMap[note].name);
+                    stepDotPositions = scale.map(note => solfegeMap[note].dot);
                 } else {
                     // 下行：从基准音开始的下行部分
                     scale = scaleNotes.slice(0, 13); // 取前半部分（13个音符）
-                    stepSolfege = scale.map(note => solfegeMap[note]);
+                    stepSolfege = scale.map(note => solfegeMap[note].name);
+                    stepDotPositions = scale.map(note => solfegeMap[note].dot);
                 }
             } else {
                 // 大小调音阶处理
@@ -804,21 +899,28 @@
                     // 上行：从基准音开始的上行部分
                     scale = scaleNotes.slice(7, 15);
                     // 使用原始唱名映射
-                    stepSolfege = scale.map(note => solfegeMap[note]);
+                    stepSolfege = scale.map(note => solfegeMap[note].name);
+                    stepDotPositions = scale.map(note => solfegeMap[note].dot);
                 } else {
                     // 下行：从基准音开始的下行部分
                     scale = [...scaleNotes.slice(0, 8)].reverse();
                     
                     // 根据音阶类型使用正确的下行唱名
                     if (scaleType === "major") {
-                        // 大调下行：do 低si 低la 低sol 低fa 低mi 低re 低do
+                        // 大调下行：do si la sol fa mi re do
                         stepSolfege = [
-                            "do", "低si", "低la", "低sol", "低fa", "低mi", "低re", "低do"
+                            "do", "si", "la", "sol", "fa", "mi", "re", "do"
+                        ];
+                        stepDotPositions = [
+                            "none", "below", "below", "below", "below", "below", "below", "below"
                         ];
                     } else {
-                        // 小调下行：la 低sol 低fa 低mi 低re 低do 低si 低la
+                        // 小调下行：la sol fa mi re do si la
                         stepSolfege = [
-                            "la", "低sol", "低fa", "低mi", "低re", "低do", "低si", "低la"
+                            "la", "sol", "fa", "mi", "re", "do", "si", "la"
+                        ];
+                        stepDotPositions = [
+                            "none", "below", "below", "below", "below", "below", "below", "below"
                         ];
                     }
                 }
@@ -835,6 +937,17 @@
                 label.className = 'step-label';
                 label.textContent = stepSolfege[index];
                 step.appendChild(label);
+                
+                // 添加点标记
+                if (stepDotPositions[index] === "above") {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot-above';
+                    label.appendChild(dot);
+                } else if (stepDotPositions[index] === "below") {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot-below';
+                    label.appendChild(dot);
+                }
                 
                 const line = document.createElement('div');
                 line.className = 'step-line';
