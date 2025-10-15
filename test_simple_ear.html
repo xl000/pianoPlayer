@@ -851,13 +851,11 @@
             
             // 映射下行部分 - 确保基准音不被覆盖
             for (let i = 0; i < descendingScale.length; i++) {
-                // 跳过基准音，避免覆盖上行部分的映射
-                if (descendingScale[i] !== baseNote) {
-                    solfegeMap[descendingScale[i]] = {
-                        name: descendingSolfege[i],
-                        dot: descendingDotPositions[i]
-                    };
-                }
+                // 对于下行部分的所有音符都进行映射
+                solfegeMap[descendingScale[i]] = {
+                    name: descendingSolfege[i],
+                    dot: descendingDotPositions[i]
+                };
             }
 
              // 特别处理基准音的点标记
