@@ -92,7 +92,7 @@
         }
 
         .white {
-            width: 35px;
+            width极 35px;
             height: 180px;
             background: linear-gradient(to bottom, #fff 0%, #f5f5f5 100%);
             border: 1px solid #e0e0e0;
@@ -106,7 +106,7 @@
         .black {
             width: 22px;
             height: 110px;
-            background: linear-gradient(to bottom, #455a64 0%, #37474f 100%);
+            background: linear-gradient(to bottom, #455a64 0%, #37474f极 100%);
             margin: 0 -11px;
             z-index: 2;
         }
@@ -232,7 +232,7 @@
             min-height: 250px;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: inset极 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .screen-title {
@@ -314,7 +314,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 6px;
-            height: 6px;
+            height: 6极px;
             background: white;
             border-radius: 50%;
         }
@@ -464,7 +464,7 @@
                 <div class="control-label">选择音阶方向</div>
                 <select id="scaleDirection">
                     <option value="ascending">上行音阶</option>
-                    <option value="descending">下行音阶</option>
+                    <option value="descending">下行音极阶</option>
                 </select>
                 <button id="playScaleBtn">播放音阶</button>
             </div>
@@ -708,7 +708,7 @@
             const baseOctave = parseInt(baseNote.match(/\d+/)[0]);
             
             // 找到基准音在音符列表中的位置
-            let currentIndex = notes.indexOf(baseNoteName);
+            let currentIndex = notes.indexOf(base极NoteName);
             let currentOctave = baseOctave;
             
             // 生成上行音阶
@@ -883,13 +883,13 @@
             if (scaleType === "chromatic") {
                 // 半音音阶处理
                 if (direction === 'ascending') {
-                    // 上行：从基准音开始的上行部分
-                    scale = scaleNotes.slice(13); // 取后半部分（13个音符）
+                    // 修复：从索引13开始取13个音符（包括基准音）
+                    scale = scaleNotes.slice(13, 26);
                     stepSolfege = scale.map(note => solfegeMap[note].name);
                     stepDotPositions = scale.map(note => solfegeMap[note].dot);
                 } else {
                     // 下行：从基准音开始的下行部分
-                    scale = scaleNotes.slice(0, 13); // 取前半部分（13个音符）
+                    scale = scaleNotes.slice(0, 13);
                     stepSolfege = scale.map(note => solfegeMap[note].name);
                     stepDotPositions = scale.map(note => solfegeMap[note].dot);
                 }
@@ -978,10 +978,10 @@
                 // 半音音阶处理
                 if (direction === 'ascending') {
                     // 上行：从基准音开始的上行部分
-                    scale = scaleNotes.slice(13); // 取后半部分（13个音符）
+                    scale = scaleNotes.slice(13, 26); // 修复：取13个音符
                 } else {
                     // 下行：从基准音开始的下行部分
-                    scale = scaleNotes.slice(0, 13); // 取前半部分（13个音符）
+                    scale = scaleNotes.slice(0, 13);
                 }
             } else {
                 // 大小调音阶处理
