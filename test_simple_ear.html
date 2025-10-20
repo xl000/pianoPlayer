@@ -209,9 +209,7 @@
             background: rgba(255, 255, 255, 0.9);
             color: #1a237e;
             margin-bottom: 8px; /* 减小间距 */
-            width: auto;
-            min-width: 90px; /* 减小最小宽度 */
-            max-width: 160px; /* 减小最大宽度 */
+            width: 100%; /* 修改为100%宽度 */
         }
 
         button {
@@ -273,29 +271,6 @@
         .bpm-input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
-        }
-
-        /* 节奏选择器样式 */
-        .rhythm-control {
-            width: 100%;
-            margin-top: 12px; /* 减小间距 */
-            display: flex;
-            justify-content: center;
-        }
-        
-        .rhythm-select {
-            padding: 10px 12px; /* 减小内边距 */
-            background: rgba(255, 255, 255, 0.9);
-            color: #1a237e;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 0.95rem; /* 减小字体大小 */
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: auto;
-            min-width: 110px; /* 减小最小宽度 */
-            max-width: 160px; /* 减小最大宽度 */
         }
 
         /* 阶梯式唱名显示屏幕 */
@@ -687,21 +662,19 @@
                     </div>
                 </div>
                 
-                <!-- 节奏控制 -->
+                <!-- 节奏控制 - 修改为与其他设置项相同的结构 -->
                 <div class="control-group">
-                    <div class="rhythm-control">
-                        <div class="control-label">节奏</div>
-                        <select id="rhythmSelect" class="rhythm-select">
-                            <option value="whole">全音符</option>
-                            <option value="half">二分音符</option>
-                            <option value="quarter" selected>四分音符</option>
-                            <option value="eighth">八分音符</option>
-                            <option value="third">三连音</option>
-                            <option value="sixteenth">十六分音符</option>
-                            <option value="thirtysecond">三十二分音符</option>
-                            <option value="sixtyfourth">六十四分音符</option>
-                        </select>
-                    </div>
+                    <div class="control-label">节奏</div>
+                    <select id="rhythmSelect">
+                        <option value="whole">全音符</option>
+                        <option value="half">二分音符</option>
+                        <option value="quarter" selected>四分音符</option>
+                        <option value="eighth">八分音符</option>
+                        <option value="third">三连音</option>
+                        <option value="sixteenth">十六分音符</option>
+                        <option value="thirtysecond">三十二分音符</option>
+                        <option value="sixtyfourth">六十四分音符</option>
+                    </select>
                 </div>
             </div>
         </div>
