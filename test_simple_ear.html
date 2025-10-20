@@ -201,20 +201,24 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            width: 100%; /* 统一宽度 */
             text-align: center;
         }
 
+        /* 优化选择框宽度 */
         select {
             background: rgba(255, 255, 255, 0.9);
             color: #1a237e;
             margin-bottom: 10px;
+            width: auto; /* 自适应宽度 */
+            min-width: 100px; /* 最小宽度 */
+            max-width: 180px; /* 最大宽度 */
         }
 
         button {
             background: linear-gradient(to right, #1e88e5, #0d47a1);
             color: white;
             box-shadow: 0 4px 10px rgba(13, 71, 161, 0.4);
+            width: 100%; /* 按钮保持100%宽度 */
         }
 
         button:hover {
@@ -271,7 +275,14 @@
             margin: 0;
         }
 
-        /* 节奏选择器样式 - 优化宽度 */
+        /* 节奏选择器样式 - 优化宽度和居中 */
+        .rhythm-control {
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center; /* 居中节奏选择器 */
+        }
+        
         .rhythm-select {
             padding: 12px 15px;
             background: rgba(255, 255, 255, 0.9);
@@ -284,7 +295,7 @@
             transition: all 0.3s;
             width: auto; /* 自适应宽度 */
             min-width: 120px; /* 最小宽度 */
-            max-width: 200px; /* 最大宽度 */
+            max-width: 180px; /* 最大宽度 */
         }
 
         /* 阶梯式唱名显示屏幕 */
@@ -581,16 +592,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         
-        /* 节奏控制样式 */
-        .rhythm-control {
-            width: 100%;
-            margin-top: 15px;
-        }
-        
-        .rhythm-control .rhythm-select {
-            width: 100%;
-        }
-        
         /* 响应式调整 - 小屏幕改为单列 */
         @media (max-width: 768px) {
             .settings-grid {
@@ -678,7 +679,6 @@
                 <!-- 节奏控制 -->
                 <div class="control-group">
                     <div class="rhythm-control">
-                        <div class="control-label">节奏</div>
                         <select id="rhythmSelect" class="rhythm-select">
                             <option value="whole">全音符</option>
                             <option value="half">二分音符</option>
