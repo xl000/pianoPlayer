@@ -171,6 +171,7 @@
             flex-wrap: wrap;
         }
 
+        /* 优化控制组样式 - 统一尺寸 */
         .control-group {
             display: flex;
             flex-direction: column;
@@ -178,31 +179,36 @@
             background: rgba(55, 55, 75, 0.9);
             padding: 15px;
             border-radius: 15px;
-            min-width: 200px;
+            min-width: 180px; /* 统一最小宽度 */
+            max-width: 220px; /* 统一最大宽度 */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .control-label {
             font-size: 1.1rem;
             margin-bottom: 10px;
             color: #64ffda;
+            text-align: center;
+            width: 100%;
         }
 
-        select, button {
-            padding: 12px 20px;
+        select, button, input {
+            padding: 12px 15px;
             border-radius: 50px;
             border: none;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            width: 100%;
+            width: 100%; /* 统一宽度 */
             text-align: center;
         }
 
         select {
             background: rgba(255, 255, 255, 0.9);
             color: #1a237e;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         button {
@@ -221,6 +227,64 @@
             transform: none;
             box-shadow: none;
             cursor: not-allowed;
+        }
+        
+        /* 播放速度控制样式 */
+        .bpm-control {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .bpm-label {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #64ffda;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .bpm-input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .bpm-input {
+            width: 80px;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a237e;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            -moz-appearance: textfield;
+        }
+        
+        .bpm-input::-webkit-outer-spin-button,
+        .bpm-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* 节奏选择器样式 - 优化宽度 */
+        .rhythm-select {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1a237e;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: auto; /* 自适应宽度 */
+            min-width: 120px; /* 最小宽度 */
+            max-width: 200px; /* 最大宽度 */
         }
 
         /* 阶梯式唱名显示屏幕 */
@@ -355,6 +419,14 @@
                 font-size: 1rem;
                 padding: 8px;
             }
+            
+            .bpm-input-container {
+                flex-direction: column;
+            }
+            
+            .bpm-select {
+                width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -402,6 +474,15 @@
                 width: 4px;
                 height: 4px;
             }
+            
+            .bpm-input-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .bpm-select, .bpm-input {
+                width: 100%;
+            }
         }
 
         @media (min-width: 481px) and (max-width: 1024px) {
@@ -418,6 +499,102 @@
                 width: 20px;
                 height: 100px;
                 margin: 0 -10px;
+            }
+        }
+        
+        /* 错误提示样式 */
+        .bpm-error {
+            color: #ff5252;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 5px;
+            height: 20px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .invalid-input {
+            border: 2px solid #ff5252;
+            background-color: #fff0f0;
+        }
+        
+        /* 设置面板样式 */
+        .settings-panel {
+            background: rgba(55, 55, 75, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: none;
+            transition: all 0.3s ease;
+        }
+        
+        .settings-panel.expanded {
+            display: block;
+        }
+        
+        /* 优化设置面板网格布局 */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 三列布局 */
+            gap: 20px;
+        }
+        
+        /* 确保每个设置项宽度一致 */
+        .settings-grid .control-group {
+            min-width: auto;
+            max-width: none;
+            width: 100%;
+        }
+        
+        /* 按钮栏样式 */
+        .button-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .main-btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 180px;
+            text-align: center;
+            width: auto;
+        }
+        
+        .settings-toggle {
+            background: linear-gradient(to right, #9C27B0, #7B1FA2);
+            color: white;
+        }
+        
+        .play-btn {
+            background: linear-gradient(to right, #1e88e5, #0d47a1);
+            color: white;
+        }
+        
+        .main-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 节奏控制样式 */
+        .rhythm-control {
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .rhythm-control .rhythm-select {
+            width: 100%;
+        }
+        
+        /* 响应式调整 - 小屏幕改为单列 */
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -442,31 +619,78 @@
             <div class="scroll-arrow right-arrow">›</div>
         </div>
         
-        <!-- 控制面板 -->
-        <div class="control-panel">
-            <div class="control-group">
-                <div class="control-label">选择基准音</div>
-                <select id="baseNote">
-                    <!-- 基准音选项将通过JS动态生成 -->
-                </select>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">选择音阶类型</div>
-                <select id="scaleType">
-                    <option value="major">大调音阶</option>
-                    <option value="minor">小调音阶</option>
-                    <option value="chromatic">半音音阶</option>
-                </select>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">选择音阶方向</div>
-                <select id="scaleDirection">
-                    <option value="ascending">上行音阶</option>
-                    <option value="descending">下行音阶</option>
-                </select>
-                <button id="playScaleBtn">播放音阶</button>
+        <!-- 按钮栏 -->
+        <div class="button-bar">
+            <button id="toggleSettingsBtn" class="main-btn settings-toggle">设置面板</button>
+            <button id="playScaleBtn" class="main-btn play-btn">播放音阶</button>
+        </div>
+        
+        <!-- 设置面板 -->
+        <div id="settingsPanel" class="settings-panel">
+            <div class="settings-grid">
+                <!-- 基准音 -->
+                <div class="control-group">
+                    <div class="control-label">基准音</div>
+                    <select id="baseNote">
+                        <!-- 基准音选项将通过JS动态生成 -->
+                    </select>
+                </div>
+                
+                <!-- 音阶类型 -->
+                <div class="control-group">
+                    <div class="control-label">音阶类型</div>
+                    <select id="scaleType">
+                        <option value="major">大调音阶</option>
+                        <option value="minor">小调音阶</option>
+                        <option value="chromatic">半音音阶</option>
+                    </select>
+                </div>
+                
+                <!-- 唱名表示方式 -->
+                <div class="control-group">
+                    <div class="control-label">唱名表示方式</div>
+                    <select id="notationType">
+                        <option value="solfa">字母唱名</option>
+                        <option value="number">数字唱名</option>
+                    </select>
+                </div>
+                
+                <!-- 音阶方向 -->
+                <div class="control-group">
+                    <div class="control-label">音阶方向</div>
+                    <select id="scaleDirection">
+                        <option value="ascending">上行音阶</option>
+                        <option value="descending">下行音阶</option>
+                    </select>
+                </div>
+                
+                <!-- 播放速度控制 -->
+                <div class="control-group">
+                    <div class="bpm-control">
+                        <div class="control-label">播放速度 (BPM)</div>
+                        <div class="bpm-input-container">
+                            <input type="number" id="bpmInput" class="bpm-input" min="20" max="300" value="60">
+                        </div>
+                        <div id="bpmError" class="bpm-error"></div>
+                    </div>
+                </div>
+                
+                <!-- 节奏控制 -->
+                <div class="control-group">
+                    <div class="rhythm-control">
+                        <div class="control-label">节奏</div>
+                        <select id="rhythmSelect" class="rhythm-select">
+                            <option value="whole">全音符</option>
+                            <option value="half">二分音符</option>
+                            <option value="quarter" selected>四分音符</option>
+                            <option value="eighth">八分音符</option>
+                            <option value="third">三连音</option>
+                            <option value="sixteenth">十六分音符</option>
+                            <option value="thirtysecond">三十二分音符</option>
+                            <option value="sixtyfourth">六十四分音符</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -513,7 +737,13 @@
         const scaleDirection = document.getElementById('scaleDirection');
         const baseNoteSelect = document.getElementById('baseNote');
         const scaleTypeSelect = document.getElementById('scaleType');
+        const notationTypeSelect = document.getElementById('notationType');
         const scaleDisplay = document.getElementById('scaleDisplay');
+        const bpmInput = document.getElementById('bpmInput');
+        const rhythmSelect = document.getElementById('rhythmSelect');
+        const bpmError = document.getElementById('bpmError');
+        const toggleSettingsBtn = document.getElementById('toggleSettingsBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
         
         // 钢琴键盘配置 - 扩展到C1到B6（6个八度）
         const octaveStart = 1; // 从C1开始
@@ -529,17 +759,123 @@
         // 当前音阶类型
         let scaleType = "major";
         
+        // 唱名表示方式
+        let notationType = "solfa";
+        
+        // 当前播放速度 (BPM)
+        let currentBPM = 60;
+        
         // 唱名映射（首调唱名法）
         let solfegeMap = {};
         
         // 音阶的音符（两个八度范围）
         let scaleNotes = [];
         
+        // 唱名到数字的映射
+        const solfaToNumber = {
+            "do": "1",
+            "re": "2",
+            "mi": "3",
+            "fa": "4",
+            "sol": "5",
+            "la": "6",
+            "si": "7",
+            "#do": "#1",
+            "#re": "#2",
+            "#mi": "#3",
+            "#fa": "#4",
+            "#sol": "#5",
+            "#la": "#6",
+            "#si": "#7",
+            "bdo": "b1",
+            "bre": "b2",
+            "bmi": "b3",
+            "bfa": "b4",
+            "bsol": "b5",
+            "bla": "b6",
+            "bsi": "b7"
+        };
+        
+        // 节奏映射（添加了三分音符）
+        const rhythmMap = {
+            "whole": 4,      // 全音符
+            "half": 2,       // 二分音符
+            "quarter": 1,    // 四分音符
+            "third": 1/3,    // 三分音符（三连音）
+            "eighth": 0.5,   // 八分音符
+            "sixteenth": 0.25, // 十六分音符
+            "thirtysecond": 0.125, // 三十二分音符
+            "sixtyfourth": 0.0625 // 六十四分音符
+        };
+        
         // 初始化函数
         function init() {
             createPiano();
             setupScrollArrows();
             createScaleDisplay();
+            setupBPMControls();
+            setupSettingsPanel();
+        }
+        
+        // 设置设置面板
+        function setupSettingsPanel() {
+            // 点击设置按钮切换面板显示
+            toggleSettingsBtn.addEventListener('click', function() {
+                settingsPanel.classList.toggle('expanded');
+                toggleSettingsBtn.textContent = settingsPanel.classList.contains('expanded') 
+                    ? '收起设置' : '设置面板';
+            });
+        }
+        
+        // 设置BPM控制
+        function setupBPMControls() {
+            // 初始设置
+            bpmInput.value = currentBPM;
+            
+            // 监听输入框变化
+            bpmInput.addEventListener('input', function() {
+                validateBPMInput();
+            });
+            
+            // 保留change事件用于边界检查
+            bpmInput.addEventListener('change', function() {
+                validateBPMInput();
+            });
+            
+            // 添加键盘事件支持
+            bpmInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    validateBPMInput();
+                }
+            });
+        }
+        
+        // 验证BPM输入
+        function validateBPMInput() {
+            const value = parseInt(bpmInput.value);
+            let isValid = true;
+            
+            if (isNaN(value)) {
+                bpmError.textContent = "请输入有效数字";
+                bpmInput.classList.add('invalid-input');
+                isValid = false;
+            } else if (value < 20) {
+                bpmError.textContent = "BPM不能小于20";
+                bpmInput.classList.add('invalid-input');
+                isValid = false;
+            } else if (value > 300) {
+                bpmError.textContent = "BPM不能大于300";
+                bpmInput.classList.add('invalid-input');
+                isValid = false;
+            } else {
+                bpmError.textContent = "";
+                bpmInput.classList.remove('invalid-input');
+                currentBPM = value;
+            }
+            
+            // 根据验证结果更新播放按钮状态
+            playScaleBtn.disabled = !isValid;
+            return isValid;
         }
         
         // 创建钢琴键盘
@@ -750,9 +1086,15 @@
             
             // 标记哪些音符需要点标记（低八度：下方点，高八度：上方点）
             const dotPositions = [
-                "below", "below", "below", "below", "below", "below", "below",
-                "none",
-                "none", "none", "none", "none", "none", "none", "above"
+                "below", "below", "below", "below", "below", "below", "below", // 下行部分（低八度）
+                "none",   // 基准音（没有点）
+                "none",   // si (没有点)
+                "above",  // do (高八度)
+                "above",  // re (高八度)
+                "above",  // mi (高八度)
+                "above",  // fa (高八度)
+                "above",  // sol (高八度)
+                "above"   // la (高八度)
             ];
             
             for (let i = 0; i < scaleNotes.length; i++) {
@@ -872,6 +1214,14 @@
             }
         }
         
+        // 计算音符位置（半音数）
+        function getNotePosition(noteStr) {
+            const noteName = noteStr.replace(/\d+/, '');
+            const octave = parseInt(noteStr.match(/\d+/)[0]);
+            const noteIndex = notes.indexOf(noteName);
+            return octave * 12 + noteIndex;
+        }
+        
         // 创建阶梯式唱名显示
         function createScaleDisplay() {
             scaleDisplay.innerHTML = '';
@@ -918,23 +1268,59 @@
                             "none", "below", "below", "below", "below", "below", "below", "below"
                         ];
                     } else {
-                        // 小调下行：la sol fa mi re do si la
+                        // 小调下行：la sol fa mi re do 低si 低la
                         stepSolfege = [
                             "la", "sol", "fa", "mi", "re", "do", "si", "la"
                         ];
                         stepDotPositions = [
-                            "none", "below", "below", "below", "below", "below", "below", "below"
+                            "none", "none", "none", "none", "none", "none", "below", "below"
                         ];
                     }
                 }
             }
+            
+            // 如果使用数字唱名，转换唱名
+            if (notationType === "number") {
+                stepSolfege = stepSolfege.map(name => {
+                    // 处理带升降号的唱名
+                    if (name.startsWith("#") || name.startsWith("b")) {
+                        const baseName = name.substring(1);
+                        const prefix = name[0];
+                        return prefix + (solfaToNumber[baseName] || name);
+                    }
+                    return solfaToNumber[name] || name;
+                });
+            }
+            
+            // 计算总半音数和每个半音的高度
+            const firstNote = scale[0];
+            const lastNote = scale[scale.length - 1];
+            let totalSemitones;
+            
+            if (direction === 'ascending') {
+                totalSemitones = getNotePosition(lastNote) - getNotePosition(firstNote);
+            } else {
+                totalSemitones = getNotePosition(firstNote) - getNotePosition(lastNote);
+            }
+            
+            // 确保总半音数是正数
+            totalSemitones = Math.abs(totalSemitones);
+            
+            // 计算每个半音的高度（最大高度180px）
+            const H = totalSemitones > 0 ? 180 / totalSemitones : 0;
             
             // 创建步骤元素
             scale.forEach((note, index) => {
                 const step = document.createElement('div');
                 step.className = 'step';
                 step.dataset.note = note;
-                step.style.alignSelf = 'flex-end'; // 默认从底部开始
+                
+                // 设置对齐方式
+                if (direction === 'ascending') {
+                    step.style.alignSelf = 'flex-end'; // 从底部开始
+                } else {
+                    step.style.alignSelf = 'flex-start'; // 从顶部开始
+                }
                 
                 const label = document.createElement('div');
                 label.className = 'step-label';
@@ -956,24 +1342,33 @@
                 line.className = 'step-line';
                 step.appendChild(line);
                 
-                // 设置阶梯位置
+                // 计算当前音符相对于第一个音符的半音数
+                let semitonesFromFirst;
                 if (direction === 'ascending') {
-                    // 上行：从左下到右上（上坡）
-                    // 位置从底部开始，逐渐向上
-                    step.style.marginBottom = `${index * (100 / (scale.length - 1))}px`;
+                    semitonesFromFirst = getNotePosition(note) - getNotePosition(firstNote);
                 } else {
-                    // 下行：从左上到右下（下坡）
-                    // 位置从顶部开始，逐渐向下
-                    step.style.alignSelf = 'flex-start';
-                    step.style.marginTop = `${index * (100 / (scale.length - 1))}px`;
+                    semitonesFromFirst = getNotePosition(firstNote) - getNotePosition(note);
+                }
+                
+                // 设置位置偏移（半音高度等于全音高度的一半）
+                if (direction === 'ascending') {
+                    step.style.marginBottom = `${semitonesFromFirst * H}px`;
+                } else {
+                    step.style.marginTop = `${semitonesFromFirst * H}px`;
                 }
                 
                 scaleDisplay.appendChild(step);
             });
         }
         
+
         // 播放音阶
         async function playScale() {
+            // 在播放前验证BPM输入
+            if (!validateBPMInput()) {
+                return;
+            }
+            
             const direction = scaleDirection.value;
             let scale;
             
@@ -1013,28 +1408,38 @@
                     await Tone.start();
                 }
                 
+                // 获取节奏值
+                const rhythmValue = rhythmSelect.value;
+                const beatValue = rhythmMap[rhythmValue] || 1; // 默认四分音符
+                
+                // 计算音符间隔时间（基于BPM和节奏）
+                const interval = (60 / currentBPM) * beatValue * 1000; // 毫秒
+                
                 // 依次播放每个音符
                 for (let i = 0; i < scale.length; i++) {
                     const note = scale[i];
                     const step = document.querySelector(`.step[data-note="${note}"]`);
                     const pianoKey = document.getElementById(`key-${note}`);
                     
-                    // 高亮当前步骤
+                    // 关键修改：在播放音符前立即显示视觉元素
                     if (step) {
                         step.classList.add('visible');
                         step.classList.add('active');
+                        
+                        // 强制浏览器重绘以确保视觉更新
+                        void step.offsetHeight;
                     }
                     
-                    // 高亮钢琴键
                     if (pianoKey) {
                         pianoKey.classList.add('playing');
+                        void pianoKey.offsetHeight;
                     }
                     
-                    // 播放音符
-                    sampler.triggerAttackRelease(note, 0.4);
+                    // 播放音符 - 异步操作
+                    sampler.triggerAttackRelease(note, beatValue);
                     
                     // 等待音符播放完成
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    await new Promise(resolve => setTimeout(resolve, interval));
                     
                     // 移除高亮
                     if (step) {
@@ -1052,7 +1457,7 @@
                 playScaleBtn.textContent = "播放音阶";
             }
         }
-        
+
         // 滚动到指定音符的位置
         function scrollToNote(note) {
             const pianoContainer = document.querySelector('.piano-container');
@@ -1117,6 +1522,12 @@
         
         scaleTypeSelect.addEventListener('change', function() {
             scaleType = this.value;
+            createScaleDisplay();
+        });
+        
+        // 监听唱名表示方式切换
+        notationTypeSelect.addEventListener('change', function() {
+            notationType = this.value;
             createScaleDisplay();
         });
         
